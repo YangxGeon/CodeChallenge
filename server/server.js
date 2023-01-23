@@ -27,7 +27,7 @@ app.post("/code", function (request, response) {
 	};
 	var fs = require("fs");
 	var data = newFile.text;
-	fs.writeFileSync(`./test.${newFile.option}`, data, "utf-8");
+	fs.writeFileSync(`./codefile/test.${newFile.option}`, data, "utf-8");
 	file.push(newFile);
 	console.log(file);
 	child_process.exec("autopush.bat", function (error, stdout, stderr) {
