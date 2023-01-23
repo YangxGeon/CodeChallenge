@@ -37,7 +37,7 @@ function Makefile() {
   };
   return (
     <Container>
-      <select onChange={selectChange}>
+      <select onChange={selectChange} required>
         <option selected disabled>
           Choose one
         </option>

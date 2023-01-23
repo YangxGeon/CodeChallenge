@@ -20,15 +20,6 @@ app.get("/", function (request, response) {
 	response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });
 
-// function autopush() {
-// 	fs.writeFileSync(`./codefile/test.${newFile.option}`, data, "utf-8");
-// 	file.push(newFile);
-// 	console.log(file);
-// 	child_process.exec("autopush.bat", function (error, stdout, stderr) {
-// 		console.log(stdout);
-// 	});
-// }
-
 app.post("/code", function (request, response) {
 	var newFile = {
 		text: request.body.value,
