@@ -26,7 +26,6 @@ app.post("/code", function (request, response) {
 		option: request.body.selectedOption,
 	};
 	var fs = require("fs");
-
 	var data = newFile.text;
 	fs.writeFileSync(`test.${newFile.option}`, data, "utf-8");
 	file.push(newFile);
