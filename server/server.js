@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 
 var file = [];
+var child_process = require("child_process");
 
 app.listen(8080, function () {
 	console.log("listening on 8080");
@@ -25,10 +26,14 @@ app.post("/code", function (request, response) {
 		option: request.body.selectedOption,
 	};
 	var fs = require("fs");
+
 	var data = newFile.text;
 	fs.writeFileSync(`test.${newFile.option}`, data, "utf-8");
 	file.push(newFile);
 	console.log(file);
+	child_process.exec("autopush.bat", function (error, stdout, stderr) {
+		console.log(stdout);
+	});
 });
 
 // React Router 사용
