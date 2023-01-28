@@ -1,28 +1,28 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./routes/Home";
 import Makefile from "./routes/Makefile";
-import Allquiz from "./routes/Allquiz";
-import Stepquiz from "./routes/Stepquiz";
-import Typequiz from "./routes/Typequiz";
-import MemberInfo from "./routes/Memberinfo";
+import Allquiz from "./routes/All";
+import Stepquiz from "./routes/Unique";
+import Typequiz from "./routes/Hard";
+import MemberInfo from "./routes/Popular";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/code">
+        <Route path="/all/:quizId">
           <Makefile />
         </Route>
-        <Route path="/allquiz">
+        <Route path="/all">
           <Allquiz />
         </Route>
-        <Route path="/stepquiz">
+        <Route path="/popular">
           <Stepquiz />
         </Route>
-        <Route path="/typequiz">
+        <Route path="/hard">
           <Typequiz />
         </Route>
-        <Route path="/memberinfo">
+        <Route path="/unique">
           <MemberInfo />
         </Route>
         <Route path="/">
