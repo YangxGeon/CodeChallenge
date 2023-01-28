@@ -42,7 +42,7 @@ function Makefile() {
           Choose one
         </option>
         <option value="py">Python</option>
-        <option value="c">C</option>
+        <option value="cpp">C++</option>
         <option value="java">Java</option>
       </select>
       <form method="POST" action="submit" onSubmit={onSubmit}>

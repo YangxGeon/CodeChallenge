@@ -55,6 +55,8 @@ table {
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
+  background-color: #7f8fa6;
+  color: white;
 }
 a {
   text-decoration:none;
@@ -63,12 +65,12 @@ a {
 `;
 
 function App() {
-	return (
-		<>
-			<GlobalStyle />
-			<Router />
-		</>
-	);
+  return (
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
+  );
 }
 
 export default App;
