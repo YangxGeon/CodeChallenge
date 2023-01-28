@@ -6,7 +6,7 @@ var file = [];
 var child_process = require("child_process");
 
 app.listen(8080, function () {
-	console.log("listening on 8080");
+  console.log("listening on 8080");
 });
 
 app.use(express.json());
@@ -17,25 +17,26 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "../app/build")));
 
 app.get("/", function (request, response) {
-	response.sendFile(path.join(__dirname, "../app/build/index.html"));
+  response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });
 
 app.post("/code", function (request, response) {
-	var newFile = {
-		text: request.body.value,
-		option: request.body.selectedOption,
-	};
-	let fs = require("fs");
-	let data = newFile.text;
-	fs.writeFileSync(`./codefile/test.${newFile.option}`, data, "utf-8");
-	file.push(newFile);
-	console.log(file);
-	child_process.exec("autopush.bat", function (error, stdout, stderr) {
-		console.log(stdout);
-	});
+  var newFile = {
+    text: request.body.value,
+    option: request.body.selectedOption
+  };
+  let fs = require("fs");
+  let data = newFile.text;
+  let filename = "test";
+  fs.writeFileSync(`./codefile/${filename}.${newFile.option}`, data, "utf-8");
+  file.push(newFile);
+  console.log(file);
+  child_process.exec("autopush.bat", function (error, stdout, stderr) {
+    console.log(stdout);
+  });
 });
 
 // React Router 사용
 app.get("*", function (request, response) {
-	response.sendFile(path.join(__dirname, "../app/build/index.html"));
+  response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });
