@@ -23,18 +23,20 @@ const Main = styled.div`
   align-items: center;
 `;
 
-const quizContent = "이 문제는 테스트 문제로 잘 동작하는 지 확인합니다.";
-const exInput = "1 0";
-const exOutput = "0 1";
+interface QuizProps {
+  content: string;
+  input: string;
+  output: string;
+}
 
-function QuizContent() {
+function QuizContent({ content, input, output }: QuizProps) {
   return (
     <>
       <Main>
-        <Quizcontent>{quizContent}</Quizcontent>
+        <Quizcontent>{content}</Quizcontent>
         <ExInOutput>
-          <Box>예제 입력 : {exInput}</Box>
-          <Box>예제 출력 : {exOutput}</Box>
+          <Box>예제 입력 : {input}</Box>
+          <Box>예제 출력 : {output}</Box>
         </ExInOutput>
       </Main>
     </>

@@ -117,10 +117,14 @@ function Quiz() {
 
       <Switch>
         <Route path={`/all/${quizId}/quiz`}>
-          <QuizContent></QuizContent>
+          <QuizContent
+            content={quizContent}
+            input={exInput}
+            output={exOutput}
+          ></QuizContent>
         </Route>
         <Route path={`/all/${quizId}/submit`}>
-          <Codesubmit></Codesubmit>
+          <Codesubmit quizId={quizId}></Codesubmit>
         </Route>
       </Switch>
     </>

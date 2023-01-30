@@ -1,8 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Navbar from "../Navbar";
-import { Switch, Route, useParams, Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -15,12 +13,11 @@ const Codebox = styled.textarea``;
 
 const Button = styled.button``;
 
-interface RouteParams {
+interface QuizId {
   quizId: string;
 }
 
-function Codesubmit() {
-  const { quizId } = useParams<RouteParams>();
+function Codesubmit({ quizId }: QuizId) {
   const [value, setValue] = useState("");
   const [selectedOption, setSelectedOption] = useState<String>();
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
