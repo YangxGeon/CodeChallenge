@@ -1,8 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Navbar from "../Navbar";
+import { Switch, Route, useParams, Link } from "react-router-dom";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0px 20px;
 `;
 
@@ -10,7 +15,12 @@ const Codebox = styled.textarea``;
 
 const Button = styled.button``;
 
-function Makefile() {
+interface RouteParams {
+  quizId: string;
+}
+
+function Codesubmit() {
+  const { quizId } = useParams<RouteParams>();
   const [value, setValue] = useState("");
   const [selectedOption, setSelectedOption] = useState<String>();
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,21 +46,23 @@ function Makefile() {
     setSelectedOption(index);
   };
   return (
-    <Container>
-      <select onChange={selectChange} required>
-        <option selected disabled>
-          Choose one
-        </option>
-        <option value="py">Python</option>
-        <option value="cpp">C++</option>
-        <option value="java">Java</option>
-      </select>
-      <form method="POST" action="submit" onSubmit={onSubmit}>
-        <Codebox rows={50} cols={100} onChange={onChange} required />
-        <Button>Send Code</Button>
-      </form>
-    </Container>
+    <>
+      <Container>
+        <select onChange={selectChange} required>
+          <option selected disabled>
+            Choose one
+          </option>
+          <option value="py">Python</option>
+          <option value="cpp">C++</option>
+          <option value="java">Java</option>
+        </select>
+        <form method="POST" action="submit" onSubmit={onSubmit}>
+          <Codebox rows={50} cols={100} onChange={onChange} required />
+          <Button>Send Code</Button>
+        </form>
+      </Container>
+    </>
   );
 }
 
-export default Makefile;
+export default Codesubmit;

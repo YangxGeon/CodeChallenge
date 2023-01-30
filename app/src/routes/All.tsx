@@ -1,43 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-const Header = styled.header`
-  width: 100%;
-  height: 7vh;
-  background-color: #8c7ae6;
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-
-const Logo = styled.div`
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 10px;
-`;
-
-const Navbar = styled.nav`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-left: 200px;
-`;
-
-const Menu = styled.div`
-  margin-right: 40px;
-`;
-
-const LoginBtn = styled.button`
-  width: 55px;
-  height: 35px;
-  border-radius: 10px;
-  border: none;
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-`;
+import Navbar from "../Navbar";
 
 const Main = styled.main`
   padding: 0px 60px;
@@ -80,26 +43,7 @@ function All() {
   const probNumOfChallenge = 5;
   return (
     <>
-      <Header>
-        <Logo>
-          <Link to="/">CodeChallenge</Link>
-        </Logo>
-        <Navbar>
-          <Menu>
-            <Link to="/all">전체 문제</Link>
-          </Menu>
-          <Menu>
-            <Link to="/popular">인기 문제</Link>
-          </Menu>
-          <Menu>
-            <Link to="/hard">오답률 높은 문제</Link>
-          </Menu>
-          <Menu>
-            <Link to="/unique">푼 사람이 없는 문제</Link>
-          </Menu>
-        </Navbar>
-        <LoginBtn>Log In</LoginBtn>
-      </Header>
+      <Navbar></Navbar>
       <Main>
         <Allquiz>
           <Quiz>
@@ -109,7 +53,7 @@ function All() {
             <Element>도전 횟수 : {probNumOfChallenge}</Element>
             <Link
               to={{
-                pathname: `/all/${probId}`,
+                pathname: `/all/${probId}/quiz`,
                 state: { name: probName }
               }}
             >
