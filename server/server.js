@@ -27,22 +27,22 @@ app.post("/code", function (request, response) {
   };
   let fs = require("fs");
   let data = newFile.text;
-  let filename = "main";
-  let a = ""
+  let filename = "test";
+  let lang = ""
   if (newFile.option === "py") {
-    a = "python" 
+    lang = "python" 
   }
   else if (newFile.option === "java"){
-    a = "java" 
+    lang = "java" 
   }
   else{
-    a = "cpp"
+    lang = "cpp"
   }
-  fs.writeFileSync(`./codefile/${a}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
+  fs.writeFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
   file.push(newFile);
   console.log(file);
   const shell = require('shelljs');
-  shell.exec('./autopush.sh');
+  shell.exec(`./autopush.sh ${lang}`);
 });
 
 // React Router 사용
