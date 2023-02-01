@@ -58,7 +58,7 @@ function Codesubmit({ quizId }: QuizId) {
       selectedOption
     };
     axios
-      .post("http://localhost:8080/code", file)
+      .post("http://10.0.20.119:8080/code", file)
       .then(() => console.log("File created"))
       .catch((err) => console.log(err));
     setSubmit(!submit);
