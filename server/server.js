@@ -27,13 +27,20 @@ app.post("/code", function (request, response) {
   };
   let fs = require("fs");
   let data = newFile.text;
-  let filename = "test";
-  fs.writeFileSync(`./codefile/${filename}.${newFile.option}`, data, "utf-8");
+  let filename = "main";
+  let a = ""
+  if (newFile.option === "py") {
+    a = "python" 
+  }
+  else if (newFile.option === "java"){
+    a = "java" 
+  }
+  else{
+    a = "cpp"
+  }
+  fs.writeFileSync(`./codefile/${a}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
   file.push(newFile);
   console.log(file);
-  // child_process.exec("autopush.sh", function (error, stdout, stderr) {
-  //   console.log(stdout);
-  // });
   const shell = require('shelljs');
   shell.exec('./autopush.sh');
 });
