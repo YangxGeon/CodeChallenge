@@ -31,9 +31,9 @@ app.post("/code", function (request, response) {
   fs.writeFileSync(`./codefile/${filename}.${newFile.option}`, data, "utf-8");
   file.push(newFile);
   console.log(file);
-  child_process.exec("autopush.sh", function (error, stdout, stderr) {
-    console.log(stdout);
-  });
+  // child_process.exec("autopush.sh", function (error, stdout, stderr) {
+  //   console.log(stdout);
+  // });
   const shell = require('shelljs');
   shell.exec('./autopush.sh');
 });
