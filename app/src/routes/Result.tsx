@@ -1,5 +1,9 @@
+import Navbar from "../Navbar";
+
 function Result() {
-  return <div>result page</div>;
+  return <>
+  <Navbar></Navbar>
+  </>;
 }
 
 export default Result;
