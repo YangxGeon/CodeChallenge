@@ -27,8 +27,12 @@ app.post("/code", function (request, response) {
   };
   let fs = require("fs");
   let data = newFile.text;
-  let filename = "test";
+  let filename = "main";
   let lang = ""
+  let username = "12345"
+  let quiznum = "12345"
+  let timelimit = "5"
+  // let memlimit = ""
   if (newFile.option === "py") {
     lang = "python" 
   }
@@ -42,7 +46,25 @@ app.post("/code", function (request, response) {
   file.push(newFile);
   console.log(file);
   const shell = require('shelljs');
-  shell.exec(`./autopush.sh ${lang}`);
+  shell.exec(`./autopush.sh ${lang} ${quiznum} ${username} ${timelimit}`);
+});
+
+var mysql = require("mysql2");
+
+var connection = mysql.createConnection({
+  host: "10.0.20.120",
+  user: "manager",
+  password: "pw123",
+  database: "AlgoDB"
+});
+
+connection.connect();
+
+app.get("/db", (req, res) => {
+  connection.query("SELECT * from solve", function (error, results, fields) {
+    if (error) throw error;
+    res.json(results);
+  });
 });
 
 // React Router 사용

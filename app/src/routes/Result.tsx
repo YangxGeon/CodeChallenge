@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Audio } from "react-loader-spinner";
+import axios from "axios";
+import { useQuery } from 'react-query';
 
 const Main = styled.div`
   height: 93vh;
@@ -17,21 +19,32 @@ const LoadingBar = styled.div`
   align-items: center;
 `;
 
-interface RouteParams {
-  quizId: string;
-}
 
 function Result() {
-  const { quizId } = useParams<RouteParams>();
+  // const { quizId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  // const { isLoading, quizresult } = useQuery(["result", searchApi]);
+  const fetchResult = async () => {
+
+    setError(null);
+    setLoading(true);
+    const response = await axios.get(
+      'http://10.0.20.119:8080/db'
+    );
+    setData(response.data);
+    console.log(data);
+    
+    setLoading(false);
+  };
+
   useEffect(() => {
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  });
-  const lang = "python";
-  const time = "10";
-  const result = true;
+    fetchResult();
+  }, []);
+
+  if (error) return <div>에러가 발생했습니다</div>;
+
   return (
     <>
       <Navbar></Navbar>
@@ -44,10 +57,7 @@ function Result() {
           </LoadingBar>
         ) : (
           <div>
-            푼 문제 : {quizId} 사용 언어 : {lang} 런타임 시간 : {time}ms
-            <br />
-            <br />
-            결과 : {result ? "정답" : "오답"}
+            {data}
           </div>
         )}
       </Main>
