@@ -60,12 +60,19 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-app.get("/db", (req, res) => {
-  connection.query("SELECT * from solve", function (error, results, fields) {
+app.get("/solveDB", (req, res) => {
+  connection.query("SELECT * from solve order by submissiontime desc limit 1", function (error, results, fields) {
     if (error) throw error;
     res.json(results);
   });
 });
+
+app.get("/quizDB", (req, res) => {
+  connection.query("SELECT * from question", function (error, results) {
+    if (error) throw error;
+    res.json(results);
+  })
+})
 
 // React Router 사용
 app.get("*", function (request, response) {

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Main = styled.main`
   padding: 0px 60px;
@@ -13,9 +15,8 @@ const Main = styled.main`
 const Allquiz = styled.ul``;
 
 const Quiz = styled.li`
-  padding: 0px 10px;
+  padding: 15px;
   border: 3px white solid;
-  width: 800px;
   height: 70px;
   display: flex;
   align-items: center;
@@ -37,10 +38,37 @@ const GotoChallenge = styled.div`
 `;
 
 function All() {
-  const probId = 1;
-  const probName = "테스트케이스";
-  const probRate = 100;
-  const probNumOfChallenge = 5;
+  const [probId, setprobId] = useState("");
+  const [probName, setprobName] = useState("");
+  const [probRate, setprobRate] = useState(0);
+  const [probNum, setprobNum] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState([]);
+  const fetchResult = async () => {
+    setError(null);
+    setLoading(true);
+    axios.get('/quizDB').then(function (response) {
+      setData(response.data[0])
+      setprobId(response.data[0].questionnum)
+      setprobName(response.data[0].title)
+      if (Number(response.data[0].correctnum) === 0 && Number(response.data[0].trynum) === 0) {
+        setprobRate(0);
+      } else {
+        setprobRate(Number(response.data[0].correctnum) / Number(response.data[0].trynum))
+      }
+      setprobNum(response.data[0].trynum)
+      console.log(response.data[0])
+      if (response.data[0].result === null) {
+        setLoading(true)  
+      } else {
+        setLoading(false)
+      }
+    });
+  };
+  useEffect(() => {
+    fetchResult()
+  }, []);
   return (
     <>
       <Navbar></Navbar>
@@ -50,7 +78,7 @@ function All() {
             <Element>문제 번호 : {probId}</Element>
             <Element>문제 이름 : {probName}</Element>
             <Element>정답률 : {probRate}%</Element>
-            <Element>도전 횟수 : {probNumOfChallenge}</Element>
+            <Element>도전 횟수 : {probNum}</Element>
             <Link
               to={{
                 pathname: `/all/${probId}/quiz`,
