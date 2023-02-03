@@ -12,7 +12,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/result">
+        <Route path="/all/:quizId/result">
           <Result></Result>
         </Route>
         <Route path="/all/:quizId/">

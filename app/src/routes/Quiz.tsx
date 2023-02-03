@@ -3,6 +3,8 @@ import Navbar from "../Navbar";
 import { Switch, Route, useParams, Link } from "react-router-dom";
 import Codesubmit from "./Codesubmit";
 import QuizContent from "./Quizcontent";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 interface RouteParams {
   quizId: string;
@@ -79,19 +81,51 @@ const Box = styled.div`
   margin: 0px 10px;
 `;
 
-const quizName = "테스트케이스";
-const corretRate = 100;
-const timeLimit = 10;
-const memLimit = 10;
-const exInput = "1 0";
-const exOutput = "0 1";
-const examiner = "박민규";
-const source = "단국대학교";
-const quizContent = "이 문제는 테스트 문제로 잘 동작하는 지 확인합니다.";
-
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState([]);
+  const [probId, setprobId] = useState("");
+  const [probName, setprobName] = useState("");
+  const [probRate, setprobRate] = useState(0);
+  const [probNum, setprobNum] = useState("");
+  const [explain, setExplain] = useState("");
+  const [timelimit, setTimelimt] = useState("");
+  const [memlimit, setMemlimit] = useState("");
+  const [exinput, setInput] = useState("");
+  const [exoutput, setOutput] = useState("");
+  const [examiner, setExaminer] = useState("");
+  const fetchResult = async () => {
+    setError(null);
+    setLoading(true);
+    axios.get('/quizDB').then(function (response) {
+      setData(response.data[0])
+      setprobId(response.data[0].questionnum)
+      setprobName(response.data[0].title)
+      if (Number(response.data[0].correctnum) === 0 && Number(response.data[0].trynum) === 0) {
+        setprobRate(0);
+      } else {
+        setprobRate(Number(response.data[0].correctnum) / Number(response.data[0].trynum))
+      }
+      setprobNum(response.data[0].trynum);
+      setExplain(response.data[0].explanation);
+      setTimelimt(response.data[0].timelimit);
+      setMemlimit(response.data[0].memlimit);
+      setInput(response.data[0].input);
+      setOutput(response.data[0].output);
+      setExaminer(response.data[0].presenter);
+      console.log(response.data[0])
+      if (response.data[0].result === null) {
+        setLoading(true)  
+      } else {
+        setLoading(false)
+      }
+    });
+  };
+  useEffect(() => {
+    fetchResult()
+  }, []);
   return (
     <>
       <Navbar></Navbar>
@@ -107,10 +141,10 @@ function Quiz() {
         </Tabs>
         <Main>
           <Header>
-            문제 번호 : {quizId} 문제 이름 : {quizName} 시간 제한 : {timeLimit}s{" "}
-            메모리 제한 : {memLimit}MB 정답률 : {corretRate}% <br />
+            문제 번호 : {quizId} 문제 이름 : {probName} 시간 제한 : {timelimit}s{" "}
+            메모리 제한 : {memlimit}MB 정답률 : {probRate}% <br />
             <br />
-            출제자 : {examiner} 출처 : {source}
+            출제자 : {examiner}
           </Header>
         </Main>
       </Body>
@@ -118,9 +152,9 @@ function Quiz() {
       <Switch>
         <Route path={`/all/${quizId}/quiz`}>
           <QuizContent
-            content={quizContent}
-            input={exInput}
-            output={exOutput}
+            content={explain}
+            input={exinput}
+            output={exoutput}
           ></QuizContent>
         </Route>
         <Route path={`/all/${quizId}/submit`}>

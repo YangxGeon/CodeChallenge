@@ -35,7 +35,6 @@ function Result() {
   const [length, setLength] = useState("");
   const fetchResult = async () => {
     setError(null);
-    setLoading(true);
     axios.get('/solveDB').then(function (response) {
       setData(response.data[0])
       setLanguage(response.data[0].language)
@@ -44,16 +43,12 @@ function Result() {
       setTime(response.data[0].executiontime)
       setResult(response.data[0].result)
       setLength(response.data[0].length)
-      if (response.data[0].result === null) {
-        setLoading(true)  
-      } else {
-        setLoading(false)
-      }
+      setLoading(false);
     });
   };
-  useEffect(() => {
+  useEffect(()=>{
     fetchResult()
-  }, []);
+  }, [data]);
   if (error) return <div>에러가 발생했습니다</div>;
   return (
     <>
