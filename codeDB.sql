@@ -1,5 +1,0 @@
-CREATE TABLE codeDB(
-id VARCHAR(40),
-code TEXT(65535),
-PRIMARY KEY(id)
-)
