@@ -47,8 +47,8 @@ function Result() {
     });
   };
   useEffect(()=>{
-    fetchResult()
-  }, [data]);
+    setTimeout(() => fetchResult(), 5000);
+  }, []);
   if (error) return <div>에러가 발생했습니다</div>;
   return (
     <>

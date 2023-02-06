@@ -42,7 +42,9 @@ app.post("/code", function (request, response) {
   else{
     lang = "cpp"
   }
-  fs.writeFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
+  const time = `# ${Date.now()}\n`;
+  fs.writeFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, time, "utf-8");
+  fs.appendFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
   file.push(newFile);
   console.log(file);
   const shell = require('shelljs');
