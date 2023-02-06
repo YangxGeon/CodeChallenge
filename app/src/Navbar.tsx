@@ -39,6 +39,16 @@ const LoginBtn = styled.button`
   cursor: pointer;
 `;
 
+const SignUpBtn = styled.button`
+  width: 55px;
+  height: 35px;
+  border-radius: 10px;
+  border: none;
+  position: absolute;
+  right: 70px;
+  cursor: pointer;
+`;
+
 function Navbar() {
   return (
     <>
@@ -60,7 +70,6 @@ function Navbar() {
             <Link to="/unique">푼 사람이 없는 문제</Link>
           </Menu>
         </Nav>
-        <LoginBtn>Log In</LoginBtn>
       </Header>
     </>
   );

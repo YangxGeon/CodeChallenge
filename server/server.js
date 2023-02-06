@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-
 var file = [];
 var child_process = require("child_process");
 
@@ -80,3 +79,4 @@ app.get("/quizDB", (req, res) => {
 app.get("*", function (request, response) {
   response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });
+

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -36,14 +36,26 @@ const ButtonBox = styled.div`
   align-items: center;
 `;
 
+const Select = styled.select`
+  width: 100px;
+  height: 30px;
+`;
+
+const SelectButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 interface QuizId {
   quizId: string;
 }
 
 function Codesubmit({ quizId }: QuizId) {
   const [value, setValue] = useState("");
-  const [selectedOption, setSelectedOption] = useState<String>();
+  const [selectedOption, setSelectedOption] = useState<String>("py");
   const [submit, setSubmit] = useState(false);
+  const editorRef = useRef(null);
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     // const value = event.currentTarget.value;
     const {
@@ -67,28 +79,36 @@ function Codesubmit({ quizId }: QuizId) {
     const index = event.target.value;
     setSelectedOption(index);
   };
-
   return (
     <>
       <Container>
-        <select onChange={selectChange} required>
-          <option selected disabled>
-            Choose one
-          </option>
-          <option value="py">Python</option>
-          <option value="cpp">C++</option>
-          <option value="java">Java</option>
-        </select>
         <Form method="POST" action="submit" onSubmit={onSubmit}>
+          <SelectButton>
+            <Select onChange={selectChange} required>
+              <option selected value="py">Python</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+            </Select>
+            <ButtonBox>
+              {!submit ? <Button>Send Code</Button> : null}
+              {submit ? (
+                <Link to={`/all/${quizId}/result`}>
+                  <Button2>결과 보러가기</Button2>
+                </Link>
+              ) : null}
+            </ButtonBox>
+          </SelectButton>
           <Codebox rows={50} cols={100} onChange={onChange} required />
-          <ButtonBox>
-            {!submit ? <Button>Send Code</Button> : null}
-            {submit ? (
-              <Link to={`/all/${quizId}/result`}>
-                <Button2>결과 보러가기</Button2>
-              </Link>
-            ) : null}
-          </ButtonBox>
+          {/* <Editor
+            value={value}
+            onValueChange={code => setValue(code)}
+            highlight={code => highlight(code, languages.js)}
+            padding={10}
+            style={{
+              fontFamily: '"Fira code", "Fira Mono", monospace',
+              fontSize: 12,
+            }}
+          /> */}
         </Form>
       </Container>
     </>

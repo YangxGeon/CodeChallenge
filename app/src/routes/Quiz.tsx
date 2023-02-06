@@ -84,6 +84,7 @@ const Box = styled.div`
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
   const [probId, setprobId] = useState("");
