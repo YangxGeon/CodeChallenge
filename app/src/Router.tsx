@@ -7,11 +7,15 @@ import Typequiz from "./routes/Hard";
 import MemberInfo from "./routes/Popular";
 import Codesubmit from "./routes/Codesubmit";
 import Result from "./routes/Result";
+import Manager from "./routes/Manager";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/manager">
+          <Manager></Manager>
+        </Route>
         <Route path="/all/:quizId/result">
           <Result></Result>
         </Route>
