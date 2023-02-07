@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Audio } from "react-loader-spinner";
 import axios from "axios";
 import { useQuery } from 'react-query';
+
 const Main = styled.div`
   height: 93vh;
   display: flex;
@@ -74,4 +75,5 @@ function Result() {
     </>
   );
 }
+
 export default Result;

@@ -106,7 +106,7 @@ function Codesubmit({ quizId }: QuizId) {
             name="test-textarea"
             value={value}
             onValueChange={(value: string) => setValue(value)}
-            numOfLines={10}
+            numOfLines={40}
           />
         </Form>
       </Container>

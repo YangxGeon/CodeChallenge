@@ -11,14 +11,14 @@ type TextareaProps = {
 
 const StyledTextareaWrapper = styled.div`
   border-radius: 2px;
-  width: 500px;
-  height: 220px;
+  width: 40vw;
+  height: 500px;
 `;
 
 const sharedStyle = css`
   margin: 0;
   padding: 10px 0;
-  height: 200px;
+  height: 65vh;
   border-radius: 0;
   resize: none;
   outline: none;
@@ -44,8 +44,8 @@ const StyledNumbers = styled.div`
   ${sharedStyle}
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow-y: hidden;
-  text-align: right;
   box-shadow: none;
   position: absolute;
   color: grey;

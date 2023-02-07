@@ -82,4 +82,3 @@ app.get("/quizDB", (req, res) => {
 app.get("*", function (request, response) {
   response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });
-
