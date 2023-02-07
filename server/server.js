@@ -31,17 +31,20 @@ app.post("/code", function (request, response) {
   let username = "12345"
   let quiznum = "12345"
   let timelimit = "5"
+  let time = ""
   // let memlimit = ""
   if (newFile.option === "py") {
-    lang = "python" 
+    lang = "python"
+    time = `# ${Date.now()}\n`;
   }
   else if (newFile.option === "java"){
     lang = "java" 
+    time = `// ${Date.now()}\n`;
   }
   else{
     lang = "cpp"
+    time = `// ${Date.now()}\n`;
   }
-  const time = `# ${Date.now()}\n`;
   fs.writeFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, time, "utf-8");
   fs.appendFileSync(`./codefile/${lang}_pipeline/${filename}.${newFile.option}`, data, "utf-8");
   file.push(newFile);
