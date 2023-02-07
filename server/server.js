@@ -65,7 +65,8 @@ var connection = mysql.createConnection({
 connection.connect();
 
 app.get("/solveDB", (req, res) => {
-  connection.query("SELECT * from solve order by submissiontime desc limit 1", function (error, results, fields) {
+  console.log(req.query)
+  connection.query(`SELECT * from solve where questionnum="${req.query.questionnum}" and submitter="${req.query.submitter}" order by submissiontime desc limit 1`, function (error, results, fields) {
     if (error) throw error;
     res.json(results);
   });

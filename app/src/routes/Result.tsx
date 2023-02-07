@@ -36,7 +36,9 @@ function Result() {
   const [length, setLength] = useState("");
   const fetchResult = async () => {
     setError(null);
-    axios.get('/solveDB').then(function (response) {
+    axios.get('/solveDB', {params:{
+      submitter:"12345", questionnum:"12345"
+    }}).then(function (response) {
       setData(response.data[0])
       setLanguage(response.data[0].language)
       setQuesnum(response.data[0].questionnum)
