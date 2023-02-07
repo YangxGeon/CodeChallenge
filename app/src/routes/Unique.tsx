@@ -1,7 +1,12 @@
 import Navbar from "../Navbar";
 
 function Unique() {
-  return <div>step quiz</div>;
+  return (
+    <>
+      <Navbar></Navbar>
+      <div>unique</div>
+    </>
+  );
 }
 
 export default Unique;

@@ -1,7 +1,12 @@
 import Navbar from "../Navbar";
 
 function Hard() {
-  return <div>type quiz</div>;
+  return (
+    <>
+      <Navbar></Navbar>
+      <div>hard</div>
+    </>
+  );
 }
 
 export default Hard;

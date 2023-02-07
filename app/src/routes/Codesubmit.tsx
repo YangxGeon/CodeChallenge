@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CodeEditor from '@uiw/react-textarea-code-editor';
+import { Textarea } from "../Textarea";
 
 const Container = styled.div`
   display: flex;
@@ -45,6 +47,7 @@ const SelectButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px 0px;
 `
 
 interface QuizId {
@@ -98,17 +101,13 @@ function Codesubmit({ quizId }: QuizId) {
               ) : null}
             </ButtonBox>
           </SelectButton>
-          <Codebox rows={50} cols={100} onChange={onChange} required />
-          {/* <Editor
+          {/* <Codebox rows={50} cols={100} onChange={onChange} required /> */}
+          <Textarea
+            name="test-textarea"
             value={value}
-            onValueChange={code => setValue(code)}
-            highlight={code => highlight(code, languages.js)}
-            padding={10}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 12,
-            }}
-          /> */}
+            onValueChange={(value: string) => setValue(value)}
+            numOfLines={10}
+          />
         </Form>
       </Container>
     </>

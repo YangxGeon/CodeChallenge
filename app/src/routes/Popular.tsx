@@ -1,7 +1,12 @@
 import Navbar from "../Navbar";
 
 function Popular() {
-  return <div>member info</div>;
+  return (
+    <>
+      <Navbar></Navbar>
+      <div>popular</div>
+    </>
+  );
 }
 
 export default Popular;

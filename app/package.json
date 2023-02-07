@@ -13,6 +13,7 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.26",
+    "@uiw/react-textarea-code-editor": "^2.1.1",
     "@yozora/react-code-editor": "^2.2.2",
     "ace-builds": "^1.15.0",
     "axios": "^1.2.3",
