@@ -37,33 +37,31 @@ const GotoChallenge = styled.div`
   color: black;
 `;
 
+interface QuizListInterface {
+  correctnum: string;
+  creationtime: string;
+  explanation: string;
+  image: Blob;
+  input: string;
+  output: string;
+  presenter: string;
+  questionnum: number;
+  timelimit: string;
+  title: string;
+  trynum: string;
+}
+
 function All() {
-  const [probId, setprobId] = useState("");
-  const [probName, setprobName] = useState("");
-  const [probRate, setprobRate] = useState(0);
-  const [probNum, setprobNum] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
+  const [quizList, setQuizList] = useState<QuizListInterface[]>();
   const fetchResult = async () => {
     setError(null);
     setLoading(true);
     axios.get('/quizDB').then(function (response) {
-      setData(response.data[0])
-      setprobId(response.data[0].questionnum)
-      setprobName(response.data[0].title)
-      if (Number(response.data[0].correctnum) === 0 && Number(response.data[0].trynum) === 0) {
-        setprobRate(0);
-      } else {
-        setprobRate(Number(response.data[0].correctnum) / Number(response.data[0].trynum))
-      }
-      setprobNum(response.data[0].trynum)
-      console.log(response.data[0])
-      if (response.data[0].result === null) {
-        setLoading(true)  
-      } else {
-        setLoading(false)
-      }
+      setQuizList(response.data);
+      console.log(response.data);
     });
   };
   useEffect(() => {
@@ -74,20 +72,22 @@ function All() {
       <Navbar></Navbar>
       <Main>
         <Allquiz>
-          <Quiz>
-            <Element>문제 번호 : {probId}</Element>
-            <Element>문제 이름 : {probName}</Element>
-            <Element>정답률 : {probRate}%</Element>
-            <Element>도전 횟수 : {probNum}</Element>
-            <Link
-              to={{
-                pathname: `/all/${probId}/quiz`,
-                state: { name: probName }
-              }}
-            >
-              <GotoChallenge>도전하러 가기 &rarr;</GotoChallenge>
-            </Link>
-          </Quiz>
+          {quizList?.map((quiz) => (
+            <Quiz key={quiz.questionnum}>
+              <Element>문제 번호 : {quiz.questionnum}</Element>
+              <Element>문제 이름 : {quiz.title}</Element>
+              <Element>정답률 : {Number(quiz.correctnum) === 0 && Number(quiz.trynum) === 0 ? 0 : Number(quiz.correctnum) / Number(quiz.trynum)}%</Element>
+              <Element>도전 횟수 : {quiz.trynum}</Element>
+              <Link
+                to={{
+                  pathname: `/all/${quiz.questionnum}/quiz`,
+                  state: { title: quiz.title, correctnum:quiz.correctnum, explanation:quiz.explanation, input:quiz.input, output:quiz.output, presenter:quiz.presenter, questionnum:quiz.questionnum, trynum: quiz.trynum, timelimit:quiz.timelimit, memlimit:quiz.timelimit }
+                }}
+              >
+                <GotoChallenge>도전하러 가기 &rarr;</GotoChallenge>
+              </Link>
+            </Quiz>
+          ))}
         </Allquiz>
       </Main>
     </>

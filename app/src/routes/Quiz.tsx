@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Navbar from "../Navbar";
-import { Switch, Route, useParams, Link } from "react-router-dom";
+import { Switch, Route, useParams, Link, useLocation } from "react-router-dom";
 import Codesubmit from "./Codesubmit";
 import QuizContent from "./Quizcontent";
 import { useState, useEffect } from "react";
@@ -81,13 +81,28 @@ const Box = styled.div`
   margin: 0px 10px;
 `;
 
+interface Quizprops {
+  correctnum: string;
+  creationtime: string;
+  explanation: string;
+  image: Blob;
+  input: string;
+  output: string;
+  presenter: string;
+  questionnum: number;
+  timelimit: string;
+  title: string;
+  trynum: string;
+  memlimit: string;
+}
+
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
+  const { state } = useLocation<Quizprops>();
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
-  const [probId, setprobId] = useState("");
+  const [probId, setprobId] = useState(0);
   const [probName, setprobName] = useState("");
   const [probRate, setprobRate] = useState(0);
   const [probNum, setprobNum] = useState("");
@@ -101,21 +116,20 @@ function Quiz() {
     setError(null);
     setLoading(true);
     axios.get('/quizDB').then(function (response) {
-      setData(response.data[0])
-      setprobId(response.data[0].questionnum)
-      setprobName(response.data[0].title)
-      if (Number(response.data[0].correctnum) === 0 && Number(response.data[0].trynum) === 0) {
+      setprobId(state.questionnum)
+      setprobName(state.title)
+      if (Number(state.correctnum) === 0 && Number(state.trynum) === 0) {
         setprobRate(0);
       } else {
-        setprobRate(Number(response.data[0].correctnum) / Number(response.data[0].trynum))
+        setprobRate(Number(state.correctnum) / Number(state.trynum))
       }
-      setprobNum(response.data[0].trynum);
-      setExplain(response.data[0].explanation);
-      setTimelimt(response.data[0].timelimit);
-      setMemlimit(response.data[0].memlimit);
-      setInput(response.data[0].input);
-      setOutput(response.data[0].output);
-      setExaminer(response.data[0].presenter);
+      setprobNum(state.trynum);
+      setExplain(state.explanation);
+      setTimelimt(state.timelimit);
+      setMemlimit(state.memlimit);
+      setInput(state.input);
+      setOutput(state.output);
+      setExaminer(state.presenter);
       console.log(response.data[0])
       if (response.data[0].result === null) {
         setLoading(true)  
@@ -130,7 +144,6 @@ function Quiz() {
   return (
     <>
       <Navbar></Navbar>
-
       <Body>
         <Tabs>
           <Tab>
