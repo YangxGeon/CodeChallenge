@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
@@ -24,7 +24,9 @@ function Testcase () {
     const [output, setOutput] = useState("");
     const {state} = useLocation<IState>();
     const [questionnum, setQuestionnum] = useState(0);
-    setQuestionnum(state.questionnum);
+    useEffect(() => {
+        setQuestionnum(state.questionnum);
+    }, [])
     const onChangeIn = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         // const value = event.currentTarget.value;
         const {
@@ -39,20 +41,20 @@ function Testcase () {
         } = event;
         setOutput(value);
     };
-    const modify = () => {
+    const modify = async () => {
         axios.get('/testcase/modi'
             , {
                 params: {
-                    input, output, questionnum
+                    input, output, questionnum, num:testnum
                 }
             }
         )
     }
-    const read = () => {
+    const read = async () => {
         axios.get('/testcase/read/'
             , {
                 params: {
-                    questionnum
+                    questionnum, num:testnum
                 }
             }
         ).then(function(response){
@@ -61,7 +63,7 @@ function Testcase () {
             setOutput(response.data.output)
         })
     }
-    const append = () => {
+    const append = async () => {
         axios.get('/testcase/add/'
             , {
                 params: {
@@ -70,9 +72,10 @@ function Testcase () {
             }
         )
     }
+    console.log("testnum :" , testnum)
     return (
         <>
-        <div><input name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button>ㄱㄱ</button></div>
+        <div><input name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button onClick={read}>ㄱㄱ</button></div>
             <Main>
                 input
                 <InOutBox value={input} onChange={onChangeIn} />

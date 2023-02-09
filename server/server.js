@@ -98,7 +98,6 @@ app.get('/manager/insert', (req, res) => {
 //managerM 수정완료후 db update
 //수정후 테스크 케이스 1번 추가해야댐
 app.get("/manager/modi/run", (req, res) => {
-  console.log(req.query)
   connection.query(`UPDATE question SET title="${req.query.title}", timelimit="${req.query.timelimit}", memlimit="${req.query.memlimit}", input="${req.query.input}", output="${req.query.output}", explanation="${req.query.explanation}" WHERE questionnum = ${req.query.questionnum};`, function (error, results, fields) {
     if (error) throw error;
     res.json(results);
@@ -116,7 +115,10 @@ app.get("/manager/del", (req, res) => {
 app.get("/testcase/add",(req, res) => {
   dir = `../../../case/${req.query.questionnum}`
   fs.readdir(dir, (err, files) => {
-    console.log(files.length/3);
+  const filenum = parseInt(files.length/3)+1
+  fs.writeFileSync(`${dir}/in${filenum}.txt`, req.query.input, "utf-8");
+  fs.writeFileSync(`${dir}/out${filenum}.txt`, req.query.output, "utf-8");
+  fs.writeFileSync(`${dir}/result${filenum}.txt`, "", "utf-8");
     //파일 이름`in${files.length/3+2}` 내용 req.query.input
     //파일 이름`out${files.length/3+2}` 내용 req.query.output
     //파일 이름`result${files.length/3+2}` 내용 ""
@@ -126,24 +128,20 @@ app.get("/testcase/add",(req, res) => {
 app.get("/testcase/read",(req, res) =>{
   filePath = `../../../case/${req.query.questionnum}`
   const response = {input:"",output:""}
-  fs.readFile(`${filePath}/in${req.query.num}.txt`, 'utf8', function(err, data) {
-    console.log(data);
-    response.input = data
-  });
-  fs.readFile(`${filePath}out${req.query.num}.txt`, 'utf8', function(err, data) {
-    console.log(data);
-    response.output=data
-  });
-  console.log(response)
+  let data1 = fs.readFileSync(`${filePath}/in${req.query.num}.txt`,'utf-8');
+  let data2 = fs.readFileSync(`${filePath}/out${req.query.num}.txt`,'utf-8');
+  response.input = data1
+  response.output = data2
   res.json(response)
 })
 //파일 수정
 app.get("/testcase/modi",(req, res) =>{
-  fs.writeFile(`../../../case/questionnum`, req.query.input, "utf-8");
+  fs.writeFileSync(`../../../case/${req.query.questionnum}/in${req.query.num}.txt`, req.query.input, "utf-8");
+  fs.writeFileSync(`../../../case/${req.query.questionnum}/out${req.query.num}.txt`, req.query.output, "utf-8");
 })
 
 app.get("/solveDB", (req, res) => {
-  console.log(req.query)
+
   connection.query(`SELECT * from solve where questionnum="${req.query.questionnum}" and submitter="${req.query.submitter}" order by submissiontime desc limit 1`, function (error, results, fields) {
     if (error) throw error;
     res.json(results);
