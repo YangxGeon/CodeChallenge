@@ -8,13 +8,28 @@ import MemberInfo from "./routes/Popular";
 import Codesubmit from "./routes/Codesubmit";
 import Result from "./routes/Result";
 import Manager from "./routes/Manager";
+<<<<<<< HEAD
 import JoinForm from "./routes/SignUpForm";
 import LoginForm from "./routes/LoginForm";
+=======
+import ManagerM from "./routes/ManagerM";
+import ManagerN from "./routes/ManagerN";
+import Testcase from "./routes/Testcase";
+>>>>>>> 37944fc44d0e91279564b103bfc76a82cbfc1854
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/testcase">
+          <Testcase></Testcase>
+        </Route>
+        <Route path="/managerM">
+          <ManagerM></ManagerM>
+        </Route>
+        <Route path="/managerN">
+          <ManagerN></ManagerN>
+        </Route>
         <Route path="/manager">
           <Manager></Manager>
         </Route>
