@@ -69,6 +69,12 @@ function Navbar() {
           <Menu>
             <Link to="/unique">푼 사람이 없는 문제</Link>
           </Menu>
+          <SignUpBtn>
+            <Link to="/signup">Sign Up</Link>
+          </SignUpBtn>
+          <LoginBtn>
+            <Link to="/loginForm">LogIn</Link>
+          </LoginBtn>
         </Nav>
       </Header>
     </>

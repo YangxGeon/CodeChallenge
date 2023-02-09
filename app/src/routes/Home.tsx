@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
-
+const session = require("express-session");
 const Main = styled.main`
   padding: 0px 60px;
   height: 87vh;
@@ -70,6 +70,7 @@ const Footer = styled.footer`
 const Img = styled.img``;
 
 function Home() {
+  console.log(session.uid)
   return (
     <>
       <Navbar></Navbar>
