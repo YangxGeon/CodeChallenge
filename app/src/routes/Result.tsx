@@ -1,6 +1,6 @@
 import Navbar from "../Navbar";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Audio } from "react-loader-spinner";
 import axios from "axios";
@@ -24,7 +24,12 @@ const ResultInfo = styled.div`
   align-items: center;
 `
 
+interface IQuizId {
+  quizId: string;
+}
+
 function Result() {
+  const {state} = useLocation<IQuizId>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
@@ -34,13 +39,17 @@ function Result() {
   const [time, setTime] = useState("");
   const [result, setResult] = useState("");
   const [length, setLength] = useState("");
+  const [quizId, setQuizId] = useState("");
+
+  useEffect(() => {
+    setQuizId(state.quizId)
+  }, [])
   const fetchResult = async () => {
     setError(null);
     axios.get('/solveDB', {params:{
-      submitter:"12345", questionnum:"12345"
+      submitter:"12345", questionnum : state.quizId
     }}).then(function (response) {
       setData(response.data[0])
-      setLanguage(response.data[0].language)
       setQuesnum(response.data[0].questionnum)
       setSubmitter(response.data[0].submitter)
       setTime(response.data[0].executiontime)
@@ -52,6 +61,7 @@ function Result() {
   useEffect(()=>{
     setTimeout(() => fetchResult(), 5000);
   }, []);
+  console.log(state.quizId)
   if (error) return <div>에러가 발생했습니다</div>;
   return (
     <>

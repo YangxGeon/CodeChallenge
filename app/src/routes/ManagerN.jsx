@@ -26,17 +26,26 @@ function ManagerN() {
   const [explanation, setExplanation] = useState("")
   const history = useHistory();
 
+  const testapp = async () => {
+    axios.get('/manager/tc', {
+      params: {
+        title
+      }
+    })
+  }
   const insert = async () => {
     axios.get('/manager/insert'
       , {
         params: {
-          title, timelimit, memlimit, input, output, explanation, presenter: "hello"
+          title, timelimit, memlimit, input, output, explanation, presenter: "hello", input, output
         }
       }
     ).then(function (response) {
-      alert("문제 추가에 성공했습니다.");
-      console.log(response);
+      testapp()
+      alert("문제 추가에 성공했습니다.")
       history.push('/manager')
+
+
     })
       .catch(function (error) {
         alert("문제 추가에 실패했습니다.");

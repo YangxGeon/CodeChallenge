@@ -70,7 +70,8 @@ function Codesubmit({ quizId }: QuizId) {
     event.preventDefault();
     var file = {
       value,
-      selectedOption
+      selectedOption,
+      quizId
     };
     axios
       .post("http://10.0.20.119:8080/code", file)
@@ -95,7 +96,10 @@ function Codesubmit({ quizId }: QuizId) {
             <ButtonBox>
               {!submit ? <Button>Send Code</Button> : null}
               {submit ? (
-                <Link to={`/all/${quizId}/result`}>
+                <Link to = {{
+                  pathname: `/all/${quizId}/result`,
+                  state: { quizId }
+                }}>
                   <Button2>결과 보러가기</Button2>
                 </Link>
               ) : null}

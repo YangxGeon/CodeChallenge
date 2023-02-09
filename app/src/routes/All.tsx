@@ -7,7 +7,6 @@ import axios from "axios";
 const Main = styled.main`
   margin-top: 10vh;
   padding: 0px 60px;
-  height: 93vh;
   display: flex;
   justify-content: space-around;
   align-items: center;

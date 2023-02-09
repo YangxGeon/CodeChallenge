@@ -8,6 +8,7 @@ const Main = styled.main`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 7vh;
 `;
 
 const Content1 = styled.div`

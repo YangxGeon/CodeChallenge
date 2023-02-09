@@ -36,6 +36,7 @@ const Tab = styled.span`
 `;
 
 const Body = styled.body`
+  margin-top: 10vh;
   padding: 0px 100px;
 `;
 
