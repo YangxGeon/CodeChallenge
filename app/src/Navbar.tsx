@@ -8,6 +8,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   position: relative;
+  position: fixed;
+  top: 0;
 `;
 
 const Logo = styled.div`

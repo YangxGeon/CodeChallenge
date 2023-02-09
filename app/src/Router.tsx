@@ -8,11 +8,23 @@ import MemberInfo from "./routes/Popular";
 import Codesubmit from "./routes/Codesubmit";
 import Result from "./routes/Result";
 import Manager from "./routes/Manager";
+import ManagerM from "./routes/ManagerM";
+import ManagerN from "./routes/ManagerN";
+import Testcase from "./routes/Testcase";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/testcase">
+          <Testcase></Testcase>
+        </Route>
+        <Route path="/managerM">
+          <ManagerM></ManagerM>
+        </Route>
+        <Route path="/managerN">
+          <ManagerN></ManagerN>
+        </Route>
         <Route path="/manager">
           <Manager></Manager>
         </Route>
