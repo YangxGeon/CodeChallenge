@@ -4,11 +4,50 @@ import axios from "axios";
 import { Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-const Main = styled.div`
+
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25px;
+  padding: 20px 0px;
+`;
+
+const Box = styled.div`
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Content = styled.div`
+  font-size: 20px;
+`;
+
+const ExBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0px;
+`
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Parent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 10vh;
+`
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `
 
 const Title = styled.div`
@@ -72,22 +111,31 @@ function ManagerN() {
   return (
     <div>
       <Navbar />
-      <Main>
-        <Title>
-          문제 추가
-        </Title>
-        <Inputdiv>
-          <input placeholder='문제 이름' name="title" value={title} onChange={e => setTitle(e.target.value)} />
-          <input placeholder='시간 제한' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} />
-          <input placeholder='메모리 제한' name="memlimit" value={memlimit} onChange={e => setMemlimit(e.target.value)} />
-        </Inputdiv>
-        <div>
-          <textarea cols={30} rows={5} placeholder='문제 설명' name="explanation" value={explanation} onChange={e => setExplanation(e.target.value)} />
-          <textarea rows={5} placeholder='예제 입력' name="input" value={input} onChange={e => setInput(e.target.value)} />
-          <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} />
-        </div>
-        <Button onClick={() => insert()}>추가</Button>
-      </Main>
+      <Parent>
+          <Title>
+            문제 추가
+          </Title>
+        <Main>
+          <Header><div><input placeholder='문제 이름' name="title" value={title} onChange={e => setTitle(e.target.value)} /></div></Header>
+          <Content><textarea cols={100} rows={20} placeholder='문제 설명' name="explanation" value={explanation} onChange={e => setExplanation(e.target.value)} /></Content>
+          <ExBox>
+            <Box>예제 입력 : <textarea rows={5} placeholder='예제 입력' name="input" value={input} onChange={e => setInput(e.target.value)} /></Box>
+            <Box>예제 출력 : <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} /></Box>
+          </ExBox>
+          <Footer><div>시간 제한 : <input placeholder='시간 제한' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} /> 메모리 제한 : <input placeholder='메모리 제한' name="memlimit" value={memlimit} onChange={e => setMemlimit(e.target.value)} /></div></Footer>
+          {/* <Inputdiv>
+            <input placeholder='문제 이름' name="title" value={title} onChange={e => setTitle(e.target.value)} />
+            <input placeholder='시간 제한' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} />
+            <input placeholder='메모리 제한' name="memlimit" value={memlimit} onChange={e => setMemlimit(e.target.value)} />
+          </Inputdiv>
+          <div>
+            <textarea cols={30} rows={5} placeholder='문제 설명' name="explanation" value={explanation} onChange={e => setExplanation(e.target.value)} />
+            <textarea rows={5} placeholder='예제 입력' name="input" value={input} onChange={e => setInput(e.target.value)} />
+            <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} />
+          </div> */}
+          <Button onClick={() => insert()}>추가</Button>
+        </Main>
+      </Parent>
     </div>
 
   );

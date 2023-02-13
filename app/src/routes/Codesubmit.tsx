@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0px 20px;
+  position: relative;
 `;
 
 const Form = styled.form`
@@ -30,6 +31,9 @@ const Button2 = styled.button`
   cursor: pointer;
   width: 100px;
   height: 30px;
+  position: absolute;
+  right: 0px;
+  top: 10px;
 `;
 
 const ButtonBox = styled.div`
@@ -84,7 +88,9 @@ function Codesubmit({ quizId }: QuizId) {
     const index = event.target.value;
     setSelectedOption(index);
   };
-  
+  const clear = (event: React.MouseEvent<HTMLElement>) => {
+    setValue("");
+  }
   return (
     <>
       <Container>
@@ -102,7 +108,7 @@ function Codesubmit({ quizId }: QuizId) {
                   pathname: `/all/${quizId}/result`,
                   state: { quizId}
                 }}>
-                  <Button2>결과 보러가기</Button2>
+                  <Button>결과 보러가기</Button>
                 </Link>
               ) : null}
             </ButtonBox>
@@ -115,6 +121,7 @@ function Codesubmit({ quizId }: QuizId) {
             numOfLines={40}
           />
         </Form>
+        <Button2 onClick={clear}>초기화</Button2>
       </Container>
     </>
   );

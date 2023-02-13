@@ -37,8 +37,23 @@ const Tab = styled.span`
 
 const Body = styled.body`
   margin-top: 10vh;
-  padding: 0px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+const Leftside = styled.div`
+  overflow-y: scroll;
+  height: 90vh;
+  width: 50%;
+  padding: 0px 80px;
+`
+
+const Rightside = styled.div`
+  height: 90vh;
+  width: 50%;
+  padding: 0px 80px;
+`
 
 interface Quizinfo {
   quizId: number;
@@ -55,8 +70,12 @@ interface Quizinfo {
 
 const Header = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  font-size: 25px;
+  padding: 20px 0px;
+  border-bottom: 1px solid white;
+  margin-bottom: 100px;
 `;
 
 const Main = styled.main`
@@ -65,22 +84,33 @@ const Main = styled.main`
   align-items: center;
 `;
 
-const Quizcontent = styled.div`
-  margin: 50px 0px;
-`;
-
-const ExInOutput = styled.div`
+const Box = styled.div`
+  width: 40%;
+  border: 1px solid white;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 `;
 
-const Box = styled.div`
-  padding: 20px;
-  border: 1px solid white;
-  border-radius: 10px;
-  margin: 0px 10px;
+const Content = styled.div`
+  font-size: 20px;
+  margin-bottom: 100px;
 `;
+
+const ExBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px 0px;
+`
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
 
 interface Quizprops {
   correctnum: string;
@@ -146,7 +176,14 @@ function Quiz() {
     <>
       <Navbar></Navbar>
       <Body>
-        <Tabs>
+        <Leftside>
+          <Header><div>{probName}</div> <div>정답률 : {probRate}%</div></Header>
+          <Content>{explain}</Content>
+          <ExBox><Box>예제 입력 : {exinput}</Box><Box>예제 출력 : {exoutput}</Box></ExBox>
+          <Footer><div>시간 제한 : {timelimit}ms 메모리 제한 : {memlimit}MB</div> <div>출제자 : {examiner}</div></Footer>
+        </Leftside>
+        <Rightside><Codesubmit quizId={quizId}></Codesubmit></Rightside>
+        {/* <Tabs>
           <Tab>
             <Link to={`/all/${quizId}/quiz`}>quiz</Link>
           </Tab>
@@ -161,10 +198,10 @@ function Quiz() {
             <br />
             출제자 : {examiner}
           </Header>
-        </Main>
+        </Main> */}
       </Body>
 
-      <Switch>
+      {/* <Switch>
         <Route path={`/all/${quizId}/quiz`}>
           <QuizContent
             content={explain}
@@ -175,7 +212,7 @@ function Quiz() {
         <Route path={`/all/${quizId}/submit`}>
           <Codesubmit quizId={quizId}></Codesubmit>
         </Route>
-      </Switch>
+      </Switch> */}
     </>
   );
 }
