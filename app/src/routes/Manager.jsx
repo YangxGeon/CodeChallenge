@@ -7,13 +7,13 @@ import { useEffect } from "react";
 
 
 
-const Head = styled.p`
+const Head = styled.div`
   display: flex;
-	margin: 100px;
 	justify-content: center;
   align-items: center;
 	font-size:40px;
-	marigin-top: 10vh;
+	margin-top: 10vh;
+  margin-bottom: 50px;
 `;
 
 const Problem = styled.table`
@@ -52,6 +52,10 @@ const Button = styled.button`
   height: 50px;
   cursor: pointer;
   margin-left: 30px;
+`
+
+const Header = styled.thead`
+  margin-bottom: 30px;
 `
 
 function Manager() {
@@ -114,7 +118,7 @@ function Manager() {
               <Td>{v.questionnum}</Td>
               <Td>{v.title}</Td>
               <Td>{v.trynum}</Td>
-              <Td>{v.correctnum / v.trynum}</Td>
+              <Td>{Number(v.correctnum) === 0 && Number(v.trynum) === 0 ? 0 : Math.ceil(v.correctnum / v.trynum * 100)}</Td>
               <Td><Link
                 to={{
                   pathname: `/managerM/`,

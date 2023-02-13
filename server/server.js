@@ -296,7 +296,6 @@ app.post("/duplicate", (req, res) => {
   console.log(req)
   connection.query(`SELECT * from user where id="${req.query.id}"`, function (error, results, fields) {
     if (error) throw error;
-    console.log('hello')
     res.json(results);
   });
 });

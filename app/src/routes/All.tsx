@@ -76,7 +76,7 @@ function All() {
             <Quiz key={quiz.questionnum}>
               <Element>문제 번호 : {quiz.questionnum}</Element>
               <Element>문제 이름 : {quiz.title}</Element>
-              <Element>정답률 : {Number(quiz.correctnum) === 0 && Number(quiz.trynum) === 0 ? 0 : Number(quiz.correctnum) / Number(quiz.trynum)}%</Element>
+              <Element>정답률 : {Number(quiz.correctnum) === 0 && Number(quiz.trynum) === 0 ? 0 : Math.ceil(Number(quiz.correctnum) / Number(quiz.trynum)*100)}%</Element>
               <Element>도전 횟수 : {quiz.trynum}</Element>
               <Link
                 to={{

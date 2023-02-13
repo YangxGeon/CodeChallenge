@@ -122,7 +122,7 @@ function Quiz() {
       if (Number(state.correctnum) === 0 && Number(state.trynum) === 0) {
         setprobRate(0);
       } else {
-        setprobRate(Number(state.correctnum) / Number(state.trynum))
+        setprobRate(Math.ceil(Number(state.correctnum) / Number(state.trynum) * 100))
       }
       setprobNum(state.trynum);
       setExplain(state.explanation);

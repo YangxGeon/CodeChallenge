@@ -6,7 +6,7 @@ import { useHistory, useLocation } from "react-router-dom";
 const Main = styled.div`
     margin-top: 100px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 `
 
@@ -81,19 +81,18 @@ function Testcase () {
     return (
         <>
             <Main>
-                <Title>테스트 케이스 수정</Title>
+                <Title>테스트 케이스 수정&추가</Title>
                 <div>
-                    <div>
-                        몇 번째 테스트 케이스를 수정하시겠습니까?
-                    </div>
-                    <input name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button onClick={read}>찾기</button>
+                    <input placeholder="수정할 테스트 케이스 번호" name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button onClick={read}>찾기</button>
                 </div>
                 input
-                <InOutBox value={input} onChange={onChangeIn} />
+                <InOutBox rows={5} value={input} onChange={onChangeIn} />
                 output
-                <InOutBox value={output} onChange={onChangeOut} />
-                <button onClick={() => modify()}>수정</button>
-                <button onClick={() => append()}>추가</button>
+                <InOutBox rows={5} value={output} onChange={onChangeOut} />
+                <div>
+                    <button onClick={() => modify()}>수정</button>
+                    <button onClick={() => append()}>추가</button>
+                </div>
             </Main>
         </>
     )
