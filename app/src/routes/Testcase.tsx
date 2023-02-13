@@ -14,6 +14,11 @@ const InOutBox = styled.textarea`
 
 `
 
+const Title = styled.div`
+    font-size: 30px;
+    margin-bottom: 50px;
+`
+
 interface IState {
     questionnum: number;
 }
@@ -75,8 +80,14 @@ function Testcase () {
     console.log("testnum :" , testnum)
     return (
         <>
-        <div><input name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button onClick={read}>ㄱㄱ</button></div>
             <Main>
+                <Title>테스트 케이스 수정</Title>
+                <div>
+                    <div>
+                        몇 번째 테스트 케이스를 수정하시겠습니까?
+                    </div>
+                    <input name="testnum" value={testnum} onChange={e=>setTestnum(e.target.value)}/><button onClick={read}>찾기</button>
+                </div>
                 input
                 <InOutBox value={input} onChange={onChangeIn} />
                 output

@@ -8,6 +8,8 @@ import MemberInfo from "./routes/Popular";
 import Codesubmit from "./routes/Codesubmit";
 import Result from "./routes/Result";
 import Manager from "./routes/Manager";
+import JoinForm from "./routes/SignUpForm";
+import LoginForm from "./routes/LoginForm";
 import ManagerM from "./routes/ManagerM";
 import ManagerN from "./routes/ManagerN";
 import Testcase from "./routes/Testcase";
@@ -45,6 +47,12 @@ function Router() {
         </Route>
         <Route path="/unique">
           <MemberInfo />
+        </Route>
+        <Route path='/signup'>
+          <JoinForm />
+        </Route>
+        <Route path='/loginForm'>
+          <LoginForm />
         </Route>
         <Route path="/">
           <Home />

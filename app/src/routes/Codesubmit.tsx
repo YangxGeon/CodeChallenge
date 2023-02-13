@@ -75,7 +75,8 @@ function Codesubmit({ quizId }: QuizId) {
     };
     axios
       .post("http://10.0.20.119:8080/code", file)
-      .then(() => console.log("File created"))
+      .then(function(response){
+      })
       .catch((err) => console.log(err));
     setSubmit(!submit);
   };
@@ -83,6 +84,7 @@ function Codesubmit({ quizId }: QuizId) {
     const index = event.target.value;
     setSelectedOption(index);
   };
+  
   return (
     <>
       <Container>
@@ -98,7 +100,7 @@ function Codesubmit({ quizId }: QuizId) {
               {submit ? (
                 <Link to = {{
                   pathname: `/all/${quizId}/result`,
-                  state: { quizId }
+                  state: { quizId}
                 }}>
                   <Button2>결과 보러가기</Button2>
                 </Link>

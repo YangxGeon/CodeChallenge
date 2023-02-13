@@ -40,7 +40,6 @@ function Result() {
   const [result, setResult] = useState("");
   const [length, setLength] = useState("");
   const [quizId, setQuizId] = useState("");
-
   useEffect(() => {
     setQuizId(state.quizId)
   }, [])
@@ -49,12 +48,14 @@ function Result() {
     axios.get('/solveDB', {params:{
       submitter:"12345", questionnum : state.quizId
     }}).then(function (response) {
+      console.log(response.data[0])
       setData(response.data[0])
       setQuesnum(response.data[0].questionnum)
       setSubmitter(response.data[0].submitter)
       setTime(response.data[0].executiontime)
       setResult(response.data[0].result)
       setLength(response.data[0].length)
+      setLanguage(response.data[0].language)
       setLoading(false);
     });
   };
@@ -78,7 +79,7 @@ function Result() {
             <div>언어 : {language}</div><br/>
             <div>문제 번호 : {quesnum}</div><br/>
             <div>제출자 : {submitter}</div><br/>
-            <div>코드 길이 : {length}</div><br/>
+            <div>코드 길이 : {language === "python" ? parseInt(length)-16 : parseInt(length)-17}byte</div><br/>
             <div>결과 : {result}</div><br/>
             <div>런타임 : {time}ms</div>
           </ResultInfo>

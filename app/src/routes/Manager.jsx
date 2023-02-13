@@ -47,6 +47,13 @@ const Td = styled.td`
 	text-align : center;
 `;
 
+const Button = styled.button`
+  width: 80px;
+  height: 50px;
+  cursor: pointer;
+  margin-left: 30px;
+`
+
 function Manager() {
   const [data, setdata] = useState([])
   const Delete = async (questionnum) => {
@@ -71,7 +78,7 @@ function Manager() {
     <>
       <Navbar />
       <Head>관리자 페이지</Head>
-      <Link to={{ pathname: '/managerN' }}>문제추가</Link>
+      <Link to={{ pathname: '/managerN' }}><Button>문제추가</Button></Link>
       <Problem>
         <thead>
           <tr>

@@ -50,6 +50,15 @@ const SignUpBtn = styled.button`
   right: 70px;
   cursor: pointer;
 `;
+const ManagerBtn = styled.button`
+  width: 55px;
+  height: 35px;
+  border-radius: 10px;
+  border: none;
+  position: absolute;
+  right: 130px;
+  cursor: pointer;
+`;
 
 function Navbar() {
   return (
@@ -71,6 +80,15 @@ function Navbar() {
           <Menu>
             <Link to="/unique">푼 사람이 없는 문제</Link>
           </Menu>
+          <ManagerBtn>
+            <Link to="/Manager">Manager</Link>
+          </ManagerBtn>
+          <SignUpBtn>
+            <Link to="/signup">Sign Up</Link>
+          </SignUpBtn>
+          <LoginBtn>
+            <Link to="/loginForm">LogIn</Link>
+          </LoginBtn>
         </Nav>
       </Header>
     </>
