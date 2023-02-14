@@ -112,9 +112,9 @@ function ManagerN() {
     <div>
       <Navbar />
       <Parent>
-          <Title>
-            문제 추가
-          </Title>
+        <Title>
+          문제 추가
+        </Title>
         <Main>
           <Header><div><input placeholder='문제 이름' name="title" value={title} onChange={e => setTitle(e.target.value)} /></div></Header>
           <Content><textarea cols={100} rows={20} placeholder='문제 설명' name="explanation" value={explanation} onChange={e => setExplanation(e.target.value)} /></Content>
