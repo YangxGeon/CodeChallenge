@@ -66,7 +66,6 @@ app.post("/code", function (request, response) {
     option: request.body.selectedOption,
     quizId: request.body.quizId
   };
-  console.log(request);
   let data = newFile.text;
   let filename = "main";
   let lang = "";
@@ -103,7 +102,6 @@ app.post("/code", function (request, response) {
     `INSERT into solve(questionnum, submitter, language, submissiontime) VALUES(${quiznum},"${username}","${lang}","${nowtime}") on duplicate key update language="${lang}", submissiontime="${nowtime}"`,
     function (error, results) {
       if (error) throw error;
-      console.log(results);
     }
   );
 });
@@ -254,7 +252,7 @@ app.get("/testcase/modi", (req, res) => {
 app.get("/solveDB", (req, res) => {
   console.log(req.query);
   connection.query(
-    `SELECT * from solve where questionnum = ${req.query.questionnum} and submitter="${req.query.submitter}" and language="${req.query.language}" order by submissiontime desc limit 1`,
+    `SELECT * from solve where questionnum = ${req.query.questionnum} and submitter="${req.query.submitter}" order by submissiontime desc limit 1`,
     function (error, results, fields) {
       if (error) throw error;
       res.json(results);

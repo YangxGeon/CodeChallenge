@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Audio } from "react-loader-spinner";
 import axios from "axios";
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 
 const Main = styled.div`
   height: 93vh;
@@ -22,14 +22,14 @@ const ResultInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 interface IQuizId {
   quizId: string;
 }
 
 function Result() {
-  const {state} = useLocation<IQuizId>();
+  const { state } = useLocation<IQuizId>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
@@ -40,29 +40,35 @@ function Result() {
   const [result, setResult] = useState("");
   const [length, setLength] = useState("");
   const [quizId, setQuizId] = useState("");
+  console.log(state.quizId);
   useEffect(() => {
-    setQuizId(state.quizId)
-  }, [])
+    setQuizId(state.quizId);
+  }, []);
   const fetchResult = async () => {
     setError(null);
-    axios.get('/solveDB', {params:{
-      submitter:"12345", questionnum : state.quizId
-    }}).then(function (response) {
-      console.log(response.data[0])
-      setData(response.data[0])
-      setQuesnum(response.data[0].questionnum)
-      setSubmitter(response.data[0].submitter)
-      setTime(response.data[0].executiontime)
-      setResult(response.data[0].result)
-      setLength(response.data[0].length)
-      setLanguage(response.data[0].language)
-      setLoading(false);
-    });
+    axios
+      .get("/solveDB", {
+        params: {
+          submitter: "12345",
+          questionnum: state.quizId
+        }
+      })
+      .then(function (response) {
+        console.log("response:" + response.data[0]);
+        setData(response.data[0]);
+        setQuesnum(response.data[0].questionnum);
+        setSubmitter(response.data[0].submitter);
+        setTime(response.data[0].executiontime);
+        setResult(response.data[0].result);
+        setLength(response.data[0].length);
+        setLanguage(response.data[0].language);
+        setLoading(false);
+      });
   };
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => fetchResult(), 5000);
   }, []);
-  console.log(state.quizId)
+  console.log(state.quizId);
   if (error) return <div>에러가 발생했습니다</div>;
   return (
     <>
@@ -76,11 +82,22 @@ function Result() {
           </LoadingBar>
         ) : (
           <ResultInfo>
-            <div>언어 : {language}</div><br/>
-            <div>문제 번호 : {quesnum}</div><br/>
-            <div>제출자 : {submitter}</div><br/>
-            <div>코드 길이 : {language === "python" ? parseInt(length)-16 : parseInt(length)-17}byte</div><br/>
-            <div>결과 : {result}</div><br/>
+            <div>언어 : {language}</div>
+            <br />
+            <div>문제 번호 : {quesnum}</div>
+            <br />
+            <div>제출자 : {submitter}</div>
+            <br />
+            <div>
+              코드 길이 :{" "}
+              {language === "python"
+                ? parseInt(length) - 16
+                : parseInt(length) - 17}
+              byte
+            </div>
+            <br />
+            <div>결과 : {result}</div>
+            <br />
             <div>런타임 : {time}ms</div>
           </ResultInfo>
         )}
