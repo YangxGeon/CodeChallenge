@@ -270,7 +270,7 @@ const JoinForm = () => {
           </TableBody>
         </Table>
         <div style={{textAlign:"right"}}>
-            <Button type="submit" disabled={!(isId&&isEmail&&isname&&isPassword&&isPasswordConfirm)}>등록</Button>
+            <Button type="submit" disabled={!(isId&&isEmail&&isname&&isPassword&&isPasswordConfirm&&isDuplicate)}>등록</Button>
             <Button type="reset">초기화</Button>
             <Button onClick={()=>{navigate.push('/LoginForm')}}>취소</Button>
           </div>

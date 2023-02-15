@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const Header = styled.header`
   width: 100%;
@@ -59,8 +61,20 @@ const ManagerBtn = styled.button`
   right: 130px;
   cursor: pointer;
 `;
+const ButtonBox = styled.div``;
 
 function Navbar() {
+  const history = useHistory();
+  const [id, setId] = useState("");
+  const [author_id, setAuthor_id] = useState("");
+  axios.post("/session_check").then(function (response) {
+    setAuthor_id(response.data.author_id);
+    setId(response.data.uid);
+  });
+  const logout = () => {
+    axios.post("/logout");
+    history.push("/loginForm");
+  };
   return (
     <>
       <Header>
@@ -80,15 +94,27 @@ function Navbar() {
           <Menu>
             <Link to="/unique">푼 사람이 없는 문제</Link>
           </Menu>
-          <ManagerBtn>
-            <Link to="/Manager">Manager</Link>
-          </ManagerBtn>
-          <SignUpBtn>
-            <Link to="/signup">Sign Up</Link>
-          </SignUpBtn>
-          <LoginBtn>
-            <Link to="/loginForm">LogIn</Link>
-          </LoginBtn>
+          {id === undefined ? (
+            <>
+              <SignUpBtn>
+                <Link to="/signup">Sign Up</Link>
+              </SignUpBtn>
+              <LoginBtn>
+                <Link to="/loginForm">LogIn</Link>
+              </LoginBtn>
+            </>
+          ) : author_id.length == 3 ? (
+            <>
+              <ManagerBtn>
+                <Link to="/Manager">Manager</Link>
+              </ManagerBtn>
+              <SignUpBtn onClick={logout}>Logout</SignUpBtn>
+            </>
+          ) : (
+            <>
+              <LoginBtn onClick={logout}>Logout</LoginBtn>{" "}
+            </>
+          )}
         </Nav>
       </Header>
     </>

@@ -81,9 +81,6 @@ function LoginForm() {
         setInputPw(e.target.value)
     }
     const onClickLogin = () => {
-        console.log('click login')
-        console.log('ID : ', inputId)
-        console.log('PW : ', inputPw)
         axios.post('/login_process', {
             loginID : inputId,
             loginPassword : inputPw

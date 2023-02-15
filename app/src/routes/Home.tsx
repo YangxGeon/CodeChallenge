@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
+import axios from "axios";
 // const session = require("express-session");
 
 const Main = styled.main`

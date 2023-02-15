@@ -5,11 +5,12 @@ import Codesubmit from "./Codesubmit";
 import QuizContent from "./Quizcontent";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 interface RouteParams {
   quizId: string;
 }
-
+interface QuizNameProps {
+  result: string;
+}
 const Tabs = styled.div`
   display: flex;
   justify-content: center;
@@ -17,7 +18,14 @@ const Tabs = styled.div`
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
 `;
+const Quizname1 = styled.div``;
 
+const Quizname2 = styled.div`
+  color: #4cd137;
+`;
+const Quizname3 = styled.div`
+  color: #e84118;
+`;
 const Tab = styled.span`
   width: 100px;
   display: flex;
@@ -34,27 +42,23 @@ const Tab = styled.span`
     display: block;
   }
 `;
-
 const Body = styled.body`
   margin-top: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
 const Leftside = styled.div`
   overflow-y: scroll;
   height: 90vh;
   width: 50%;
   padding: 0px 80px;
-`
-
+`;
 const Rightside = styled.div`
   height: 90vh;
   width: 50%;
   padding: 0px 80px;
-`
-
+`;
 interface Quizinfo {
   quizId: number;
   quizName: string;
@@ -67,7 +71,6 @@ interface Quizinfo {
   examiner: string;
   source: string;
 }
-
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -77,13 +80,11 @@ const Header = styled.header`
   border-bottom: 1px solid white;
   margin-bottom: 100px;
 `;
-
 const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-
 const Box = styled.div`
   width: 40%;
   border: 1px solid white;
@@ -93,25 +94,21 @@ const Box = styled.div`
   align-items: center;
   padding: 20px;
 `;
-
 const Content = styled.div`
   font-size: 20px;
   margin-bottom: 100px;
 `;
-
 const ExBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 100px 0px;
-`
-
+`;
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-
+`;
 interface Quizprops {
   correctnum: string;
   creationtime: string;
@@ -126,7 +123,6 @@ interface Quizprops {
   trynum: string;
   memlimit: string;
 }
-
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
   const { state } = useLocation<Quizprops>();
@@ -143,16 +139,20 @@ function Quiz() {
   const [exinput, setInput] = useState("");
   const [exoutput, setOutput] = useState("");
   const [examiner, setExaminer] = useState("");
+  const [code, setCode] = useState("");
+  const [result, setResult] = useState("");
   const fetchResult = async () => {
     setError(null);
     setLoading(true);
-    axios.get('/quizDB').then(function (response) {
-      setprobId(state.questionnum)
-      setprobName(state.title)
+    axios.get("/quizDB").then(function (response) {
+      setprobId(state.questionnum);
+      setprobName(state.title);
       if (Number(state.correctnum) === 0 && Number(state.trynum) === 0) {
         setprobRate(0);
       } else {
-        setprobRate(Math.ceil(Number(state.correctnum) / Number(state.trynum) * 100))
+        setprobRate(
+          Math.ceil((Number(state.correctnum) / Number(state.trynum)) * 100)
+        );
       }
       setprobNum(state.trynum);
       setExplain(state.explanation);
@@ -161,28 +161,55 @@ function Quiz() {
       setInput(state.input);
       setOutput(state.output);
       setExaminer(state.presenter);
-      console.log(response.data[0])
+      console.log(response.data[0]);
       if (response.data[0].result === null) {
-        setLoading(true)  
+        setLoading(true);
       } else {
-        setLoading(false)
+        setLoading(false);
       }
     });
+    axios
+      .get("/history", { params: { questionnum: quizId } })
+      .then(function (response) {
+        setResult(response.data[0].result);
+        setCode(response.data[0].code);
+      });
   };
   useEffect(() => {
-    fetchResult()
+    fetchResult();
   }, []);
+  console.log(result);
   return (
     <>
       <Navbar></Navbar>
       <Body>
         <Leftside>
-          <Header><div>{probName}</div> <div>정답률 : {probRate}%</div></Header>
+          <Header>
+            {result === "" ? (
+              <Quizname1>{probName}</Quizname1>
+            ) : result === "yes" ? (
+              <Quizname2>{probName}</Quizname2>
+            ) : (
+              <Quizname3>{probName}</Quizname3>
+            )}
+            {/* <Quizname1>{probName}</Quizname1>  */}
+            <div>정답률 : {probRate}%</div>
+          </Header>
           <Content>{explain}</Content>
-          <ExBox><Box>예제 입력 : {exinput}</Box><Box>예제 출력 : {exoutput}</Box></ExBox>
-          <Footer><div>시간 제한 : {timelimit}ms 메모리 제한 : {memlimit}MB</div> <div>출제자 : {examiner}</div></Footer>
+          <ExBox>
+            <Box>예제 입력 : {exinput}</Box>
+            <Box>예제 출력 : {exoutput}</Box>
+          </ExBox>
+          <Footer>
+            <div>
+              시간 제한 : {timelimit}ms 메모리 제한 : {memlimit}MB
+            </div>{" "}
+            <div>출제자 : {examiner}</div>
+          </Footer>
         </Leftside>
-        <Rightside><Codesubmit quizId={quizId}></Codesubmit></Rightside>
+        <Rightside>
+          <Codesubmit quizId={quizId} code={code}></Codesubmit>
+        </Rightside>
         {/* <Tabs>
           <Tab>
             <Link to={`/all/${quizId}/quiz`}>quiz</Link>
@@ -200,7 +227,6 @@ function Quiz() {
           </Header>
         </Main> */}
       </Body>
-
       {/* <Switch>
         <Route path={`/all/${quizId}/quiz`}>
           <QuizContent
@@ -216,5 +242,4 @@ function Quiz() {
     </>
   );
 }
-
 export default Quiz;

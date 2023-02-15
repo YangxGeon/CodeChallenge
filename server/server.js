@@ -52,6 +52,8 @@ app.listen(8080, function () {
 app.use(express.json());
 var cors = require("cors");
 const { writeFile } = require("fs");
+const { Session } = require("express-session");
+const { request } = require("http");
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "../app/build")));
@@ -61,19 +63,24 @@ app.get("/", function (request, response) {
 });
 
 app.post("/code", function (request, response) {
+  const uid = request.session.uid;
   var newFile = {
     text: request.body.value,
     option: request.body.selectedOption,
     quizId: request.body.quizId
   };
   let data = newFile.text;
-  let filename = "main";
+  let filename = "Main";
   let lang = "";
-  let username = "12345";
+  let username = uid;
   let quiznum = newFile.quizId;
   console.log(quiznum);
   let timelimit = "5";
   let time = "";
+  let now = new Date();
+  const nowtime = `${now.getFullYear()}.${
+    now.getMonth() + 1
+  }.${now.getDate()}.${now.getHours()}.${now.getMinutes()}.${now.getSeconds()}`;
   // let memlimit = ""
   if (newFile.option === "py") {
     lang = "python";
@@ -99,7 +106,7 @@ app.post("/code", function (request, response) {
   console.log(file);
   shell.exec(`./autopush.sh ${lang} ${quiznum} ${username} ${timelimit}`);
   connection.query(
-    `INSERT into solve(questionnum, submitter, language, submissiontime) VALUES(${quiznum},"${username}","${lang}","${nowtime}") on duplicate key update language="${lang}", submissiontime="${nowtime}"`,
+    `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${lang}","${nowtime}","${data}") on duplicate key update language="${lang}", submissiontime="${nowtime}"`,
     function (error, results) {
       if (error) throw error;
     }
@@ -108,9 +115,9 @@ app.post("/code", function (request, response) {
 
 //manger 출제문제 받아오기
 app.get("/manager/sel", (req, res) => {
-  console.log(req.query.presenter);
+  console.log(req.session.uid);
   connection.query(
-    `SELECT * from question where presenter="${req.query.presenter}"`,
+    `SELECT * from question where presenter="${req.session.uid}"`,
     function (error, results, fields) {
       if (error) throw error;
       res.json(results);
@@ -131,7 +138,7 @@ app.get("/manager/modi", (req, res) => {
 app.get("/manager/insert", async (req, res) => {
   let [results] = await connection.promise().query(`INSERT INTO question(
     title, trynum, correctnum, timelimit, memlimit, explanation, creationtime, presenter,input,output)
-  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}","${req.query.explanation}","${nowtime}","${req.query.presenter}","${req.query.input}","${req.query.output}");
+  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}","${req.query.explanation}","${nowtime}","${req.session.uid}","${req.query.input}","${req.query.output}");
     `);
   //   , function (error, results, fields) {
   //   if (error) throw error;
@@ -250,11 +257,13 @@ app.get("/testcase/modi", (req, res) => {
 });
 
 app.get("/solveDB", (req, res) => {
-  console.log(req.query);
+  const uid = req.session.uid;
+  console.log(req.query.questionnum);
   connection.query(
-    `SELECT * from solve where questionnum = ${req.query.questionnum} and submitter="${req.query.submitter}" order by submissiontime desc limit 1`,
+    `SELECT * from solve where questionnum = ${req.query.questionnum} and submitter="${uid}" order by submissiontime desc limit 1`,
     function (error, results, fields) {
       if (error) throw error;
+      console.log(results);
       res.json(results);
     }
   );
@@ -282,9 +291,16 @@ app.get("/quizDB", (req, res) => {
   });
 });
 
-// React Router 사용
-app.get("*", function (request, response) {
-  response.sendFile(path.join(__dirname, "../app/build/index.html"));
+app.get("/history", (req, res) => {
+  const uid = req.session.uid;
+  connection.query(
+    `select code, result from solve where questionnum = ${req.query.questionnum} and submitter="${uid}" order by submissiontime desc limit 1`,
+    function (error, results) {
+      if (error) throw error;
+      console.log(results);
+      res.json(results);
+    }
+  );
 });
 
 // 회원가입 요청
@@ -320,27 +336,25 @@ app.post("/login_process", function (request, response) {
   var username = request.body.loginID;
   var password = request.body.loginPassword;
   console.log("login_process");
-  console.log(username);
-  console.log(password);
   if (username && password) {
     // id와 pw가 입력되었는지 확인
     connection.query(
       `SELECT pw,manager FROM user WHERE id = "${username}"`,
       function (error, results, fields) {
         if (error) throw error;
-        console.log(results);
         if (results.length > 0) {
-          // db에서의 반환값이 있으면 로그인 성공
+          // db에서의 반환값이 있으면 비밀번호 조회
           bcrypt.compare(password, results[0].pw, function (err, result) {
-            console.log(result);
-            response.json({ message: "success" });
             if (result) {
+              console.log("login");
               request.session.uid = username;
               request.session.author_id = results[0].manager;
               request.session.isLogined = true;
               request.session.save(function () {});
+              response.json({ message: "success" });
+            } else {
+              response.json({ messsage: "failed" });
             }
-            console.log(request.session.uid);
           });
         } else {
           response.json({ messsage: "failed" });
@@ -354,13 +368,8 @@ app.post("/login_process", function (request, response) {
 });
 
 app.post("/logout", (req, res) => {
-  if (!req.session.userId) {
-    res.status(400).send({ data: null, message: "not authorized" });
-  } else {
-    window.localStorage.clear();
-    req.session.destroy();
-    console.log("session destroy");
-  }
+  req.session.destroy();
+  console.log("session destroy");
 });
 
 app.use(
@@ -376,14 +385,25 @@ app.use(
 );
 
 app.post("/duplicate", (req, res) => {
-  console.log("duplicate");
-  console.log(req);
+  console.log(req.body.params.id);
   connection.query(
-    `SELECT * from user where id="${req.query.id}"`,
+    `SELECT * from user where id="${req.body.params.id}"`,
     function (error, results, fields) {
       if (error) throw error;
-      console.log("hello");
       res.json(results);
     }
   );
+});
+
+app.post("/session_check", (req, res) => {
+  const sessiondata = {
+    uid: req.session.uid,
+    author_id: req.session.author_id
+  };
+  res.json(sessiondata);
+});
+
+// React Router 사용
+app.get("*", function (request, response) {
+  response.sendFile(path.join(__dirname, "../app/build/index.html"));
 });

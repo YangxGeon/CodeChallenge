@@ -4,22 +4,21 @@ import styled from "styled-components";
 import { Switch, Route, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-
-
-
+import ManagerPage from "./ManagerPage";
 const Head = styled.div`
   display: flex;
-	justify-content: center;
+  justify-content: center;
   align-items: center;
-	font-size:40px;
-	margin-top: 10vh;
+  font-size:40px;
+  margin-top: 10vh;
   margin-bottom: 50px;
 `;
-
-const Problem = styled.table`
-  // display: flex;
-	margin: auto;
-	width : 80%
+const Middle = styled.div`
+  display: flex;
+`;
+const Problem = styled.button`
+  margin: auto;
+  width : 80%;
 `;
 const Modi = styled.button`
   display: flex;
@@ -44,22 +43,22 @@ border-radius : 10px;
 border : none;
 `
 const Td = styled.td`
-	text-align : center;
+  text-align : center;
 `;
-
 const Button = styled.button`
   width: 80px;
   height: 50px;
   cursor: pointer;
   margin-left: 30px;
 `
-
 const Header = styled.thead`
   margin-bottom: 30px;
 `
-
 function Manager() {
   const [data, setdata] = useState([])
+  const [limit, setLimit] = useState(1);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
   const Delete = async (questionnum) => {
     const yesOrNo = window.confirm(`'${questionnum} 문제를 삭제하시겠습니까?`);
     if (yesOrNo == true) {
@@ -69,19 +68,19 @@ function Manager() {
     }
   };
   const load = async () => {
-    axios.get(`/manager/sel`, { params: { presenter: "hello" } }).then(function (response) {
+    axios.get(`/manager/sel`).then(function (response) {
       setdata(response.data)
     });
   };
-
   useEffect(() => {
     load()
   }, []);
-
+console.log(data)
   return (
     <>
       <Navbar />
       <Head>관리자 페이지</Head>
+      <Middle>
       <Link to={{ pathname: '/managerN' }}><Button>문제추가</Button></Link>
       <Problem>
         <thead>
@@ -99,21 +98,19 @@ function Manager() {
             <Td>입,출력</Td>
             <Td>300</Td>
             <Td>50%</Td>
-						<Td>
-						<Link
+            <Td>
+            <Link
               to={{
                 pathname: `/managerM`,
-								state:{questionnum : "1"}
+                state:{questionnum : "1"}
               }}
             ><Modi>수정</Modi></Link>
-						<Del onClick={()=>Delete("1")}>삭제</Del>
+            <Del onClick={()=>Delete("1")}>삭제</Del>
             </Td>
             </tr>
         </tbody> */}
-
-
         <tbody>
-          {data?.map((v) => (
+          {data?.slice(offset, offset + limit).map((v) => (
             <tr>
               <Td>{v.questionnum}</Td>
               <Td>{v.title}</Td>
@@ -134,9 +131,16 @@ function Manager() {
             </tr>
           ))}
         </tbody>
+
       </Problem>
+      <ManagerPage
+          total={data.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+        </Middle>
     </>
   )
 }
-
 export default Manager;

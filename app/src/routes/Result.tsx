@@ -5,7 +5,20 @@ import { useState, useEffect } from "react";
 import { Audio } from "react-loader-spinner";
 import axios from "axios";
 import { useQuery } from "react-query";
-
+import { StringDecoder } from "string_decoder";
+const Code = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const Res = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 const Main = styled.div`
   height: 93vh;
   display: flex;
@@ -17,17 +30,13 @@ const LoadingBar = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const ResultInfo = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
 `;
-
 interface IQuizId {
   quizId: string;
 }
-
 function Result() {
   const { state } = useLocation<IQuizId>();
   const [loading, setLoading] = useState(true);
@@ -40,6 +49,7 @@ function Result() {
   const [result, setResult] = useState("");
   const [length, setLength] = useState("");
   const [quizId, setQuizId] = useState("");
+  const [code, setCode] = useState("");
   console.log(state.quizId);
   useEffect(() => {
     setQuizId(state.quizId);
@@ -62,6 +72,7 @@ function Result() {
         setResult(response.data[0].result);
         setLength(response.data[0].length);
         setLanguage(response.data[0].language);
+        setCode(response.data[0].code);
         setLoading(false);
       });
   };
@@ -69,6 +80,7 @@ function Result() {
     setTimeout(() => fetchResult(), 5000);
   }, []);
   console.log(state.quizId);
+  console.log(code);
   if (error) return <div>에러가 발생했습니다</div>;
   return (
     <>
@@ -82,28 +94,30 @@ function Result() {
           </LoadingBar>
         ) : (
           <ResultInfo>
-            <div>언어 : {language}</div>
-            <br />
-            <div>문제 번호 : {quesnum}</div>
-            <br />
-            <div>제출자 : {submitter}</div>
-            <br />
-            <div>
-              코드 길이 :{" "}
-              {language === "python"
-                ? parseInt(length) - 16
-                : parseInt(length) - 17}
-              byte
-            </div>
-            <br />
-            <div>결과 : {result}</div>
-            <br />
-            <div>런타임 : {time}ms</div>
+            <Code>제출코드 : {code}</Code>
+            <Res>
+              <div>언어 : {language}</div>
+              <br />
+              <div>문제 번호 : {quesnum}</div>
+              <br />
+              <div>제출자 : {submitter}</div>
+              <br />
+              <div>
+                코드 길이 :{" "}
+                {language === "python"
+                  ? parseInt(length) - 16
+                  : parseInt(length) - 17}
+                byte
+              </div>
+              <br />
+              <div>결과 : {result}</div>
+              <br />
+              <div>런타임 : {time}ms</div>
+            </Res>
           </ResultInfo>
         )}
       </Main>
     </>
   );
 }
-
 export default Result;

@@ -47,7 +47,7 @@ const Parent = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `
 
 const Title = styled.div`
@@ -86,7 +86,7 @@ function ManagerN() {
     axios.get('/manager/insert'
       , {
         params: {
-          title, timelimit, memlimit, input, output, explanation, presenter: "hello", input, output
+          title, timelimit, memlimit, input, output, explanation, input, output
         }
       }
     ).then(function (response) {
@@ -107,7 +107,7 @@ function ManagerN() {
       }
     })
   }
-
+  
   return (
     <div>
       <Navbar />
