@@ -13,6 +13,7 @@ import LoginForm from "./routes/LoginForm";
 import ManagerM from "./routes/ManagerM";
 import ManagerN from "./routes/ManagerN";
 import Testcase from "./routes/Testcase";
+import MyPage from "./routes/MyPage";
 
 function Router() {
   return (
@@ -53,6 +54,9 @@ function Router() {
         </Route>
         <Route path='/loginForm'>
           <LoginForm />
+        </Route>
+        <Route path='/myPage'>
+          <MyPage/>
         </Route>
         <Route path="/">
           <Home />

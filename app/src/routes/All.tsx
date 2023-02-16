@@ -23,6 +23,7 @@ const Button = styled.li`
 
   &:hover {
     font-weight: bolder;
+    cursor: pointer;
   }
 `;
 const Quiz = styled.li`

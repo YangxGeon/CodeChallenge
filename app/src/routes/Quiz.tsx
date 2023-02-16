@@ -123,6 +123,9 @@ interface Quizprops {
   trynum: string;
   memlimit: string;
 }
+const HtmlText = ({ text }: { text: string }) => (
+  <div dangerouslySetInnerHTML={{ __html: text }} />
+);
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
   const { state } = useLocation<Quizprops>();
@@ -195,7 +198,8 @@ function Quiz() {
             {/* <Quizname1>{probName}</Quizname1>  */}
             <div>정답률 : {probRate}%</div>
           </Header>
-          <Content>{explain}</Content>
+          <Content><HtmlText text={explain}/></Content>
+          {/* <Content>{explain}</Content> */}
           <ExBox>
             <Box>예제 입력 : {exinput}</Box>
             <Box>예제 출력 : {exoutput}</Box>

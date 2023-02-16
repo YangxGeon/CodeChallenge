@@ -15,8 +15,11 @@ const Head = styled.div`
 `;
 const Middle = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
-const Problem = styled.button`
+const Problem = styled.table`
   margin: auto;
   width : 80%;
 `;
@@ -56,7 +59,7 @@ const Header = styled.thead`
 `
 function Manager() {
   const [data, setdata] = useState([])
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
   const Delete = async (questionnum) => {
@@ -68,7 +71,7 @@ function Manager() {
     }
   };
   const load = async () => {
-    axios.get(`/manager/sel`).then(function (response) {
+    axios.get(`/manager/sel`, { params: { presenter: "hello" } }).then(function (response) {
       setdata(response.data)
     });
   };
@@ -81,7 +84,7 @@ console.log(data)
       <Navbar />
       <Head>관리자 페이지</Head>
       <Middle>
-      <Link to={{ pathname: '/managerN' }}><Button>문제추가</Button></Link>
+      <Link to={{ pathname: '/managerN' }}>문제추가</Link>
       <Problem>
         <thead>
           <tr>
@@ -92,23 +95,6 @@ console.log(data)
             <th>관리</th>
           </tr>
         </thead>
-        {/* <tbody>
-            <tr>
-            <Td>12345</Td>
-            <Td>입,출력</Td>
-            <Td>300</Td>
-            <Td>50%</Td>
-            <Td>
-            <Link
-              to={{
-                pathname: `/managerM`,
-                state:{questionnum : "1"}
-              }}
-            ><Modi>수정</Modi></Link>
-            <Del onClick={()=>Delete("1")}>삭제</Del>
-            </Td>
-            </tr>
-        </tbody> */}
         <tbody>
           {data?.slice(offset, offset + limit).map((v) => (
             <tr>
@@ -131,7 +117,6 @@ console.log(data)
             </tr>
           ))}
         </tbody>
-
       </Problem>
       <ManagerPage
           total={data.length}

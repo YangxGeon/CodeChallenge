@@ -84,11 +84,11 @@ const JoinForm = () => {
       ...formData,
       [name]: value
     });
-    if (currentName.length < 2 || currentName.length > 5) {
-      setNameMessage("닉네임은 2글자 이상 5글자 이하로 입력해주세요!");
+    if (currentName.length < 2 || currentName.length > 10) {
+      setNameMessage("이름은 10글자 이하로 입력해주세요!");
       setIsName(false);
     } else {
-      setNameMessage("사용가능한 닉네임 입니다.");
+      setNameMessage("");
       setIsName(true);
     }
   };
@@ -121,7 +121,7 @@ const JoinForm = () => {
       [name]: value
     });
     if (password !== currentPasswordConfirm) {
-      setPasswordConfirmMessage("떼잉~ 비밀번호가 똑같지 않아요!");
+      setPasswordConfirmMessage("비밀번호가 일치하지 않습니다.");
       setIsPasswordConfirm(false);
     } else {
       setPasswordConfirmMessage("똑같은 비밀번호를 입력했습니다.");
@@ -168,11 +168,12 @@ const JoinForm = () => {
     }}).then(function(response){
       console.log(response.data)
       if(response.data.length===0){
-        SetDuplicate(true)
+        SetDuplicate(true);
         alert("사용한 가능한 id입니다");
       }
       else{
         alert("이미 존재하는 id입니다.");
+        SetDuplicate(false);
       }
     })
   }

@@ -138,7 +138,7 @@ app.get("/manager/modi", (req, res) => {
 app.get("/manager/insert", async (req, res) => {
   let [results] = await connection.promise().query(`INSERT INTO question(
     title, trynum, correctnum, timelimit, memlimit, explanation, creationtime, presenter,input,output)
-  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}","${req.query.explanation}","${nowtime}","${req.session.uid}","${req.query.input}","${req.query.output}");
+  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}",'${req.query.explanation}',"${nowtime}","${req.session.uid}","${req.query.input}","${req.query.output}");
     `);
   //   , function (error, results, fields) {
   //   if (error) throw error;
@@ -190,7 +190,7 @@ app.get("/manager/tc", (req, res) => {
 //수정후 테스크 케이스 1번 추가해야댐
 app.get("/manager/modi/run", (req, res) => {
   connection.query(
-    `UPDATE question SET title="${req.query.title}", timelimit="${req.query.timelimit}", memlimit="${req.query.memlimit}", input="${req.query.input}", output="${req.query.output}", explanation="${req.query.explanation}" WHERE questionnum = ${req.query.questionnum};`,
+    `UPDATE question SET title="${req.query.title}", timelimit="${req.query.timelimit}", memlimit="${req.query.memlimit}", input="${req.query.input}", output="${req.query.output}", explanation='${req.query.explanation}' WHERE questionnum = ${req.query.questionnum};`,
     function (error, results, fields) {
       if (error) throw error;
       res.json(results);

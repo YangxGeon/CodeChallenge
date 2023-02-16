@@ -109,10 +109,16 @@ function Navbar() {
                 <Link to="/Manager">Manager</Link>
               </ManagerBtn>
               <SignUpBtn onClick={logout}>Logout</SignUpBtn>
+              <LoginBtn>
+                <Link to="/myPage">myPage</Link>
+              </LoginBtn>
             </>
           ) : (
             <>
-              <LoginBtn onClick={logout}>Logout</LoginBtn>{" "}
+              <SignUpBtn onClick={logout}>Logout</SignUpBtn>
+              <LoginBtn>
+                <Link to="/myPage">myPage</Link>
+              </LoginBtn>
             </>
           )}
         </Nav>
