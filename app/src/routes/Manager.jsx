@@ -5,6 +5,7 @@ import { Switch, Route, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import ManagerPage from "./ManagerPage";
+import { formHelperTextClasses } from "@mui/material";
 const Head = styled.div`
   display: flex;
   justify-content: center;
@@ -19,7 +20,19 @@ const Middle = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+const New = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: right;
+  text-align: right;
+
+
+`;
 const Problem = styled.table`
+  display: flex;
+  flex-direction:row;
+`;
+const Buttons = styled.div`
   margin: auto;
   width : 80%;
 `;
@@ -39,6 +52,7 @@ const Del = styled.button`
   border : none;
 `;
 const Append = styled.button`
+background-color: aliceblue;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -84,7 +98,7 @@ console.log(data)
       <Navbar />
       <Head>관리자 페이지</Head>
       <Middle>
-      <Link to={{ pathname: '/managerN' }}>문제추가</Link>
+      <New><Link to={{ pathname: '/managerN' }}>문제추가</Link></New>
       <Problem>
         <thead>
           <tr>
@@ -102,13 +116,14 @@ console.log(data)
               <Td>{v.title}</Td>
               <Td>{v.trynum}</Td>
               <Td>{Number(v.correctnum) === 0 && Number(v.trynum) === 0 ? 0 : Math.ceil(v.correctnum / v.trynum * 100)}</Td>
-              <Td><Link
+              <Td>
+                <Buttons><Link
                 to={{
                   pathname: `/managerM/`,
                   state: { questionnum: v.questionnum }
                 }}
               ><Modi>수정</Modi></Link>
-                <Del onClick={() => Delete(v.questionnum)}>삭제</Del>
+                <Del onClick={() => Delete(v.questionnum)}>삭제</Del></Buttons>
                 <Link to={{
                   pathname: `/testcase`,
                   state: { questionnum: v.questionnum }

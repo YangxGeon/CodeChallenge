@@ -5,12 +5,22 @@ import Codesubmit from "./Codesubmit";
 import QuizContent from "./Quizcontent";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+const HtmlText = ({ text }: { text: string }) => (
+  <div dangerouslySetInnerHTML={{ __html: text }} />
+);
+
 interface RouteParams {
   quizId: string;
 }
 interface QuizNameProps {
   result: string;
 }
+
+const Html = styled(HtmlText)`
+  white-space: pre-line;
+`;
+
 const Tabs = styled.div`
   display: flex;
   justify-content: center;
@@ -86,6 +96,7 @@ const Main = styled.main`
   align-items: center;
 `;
 const Box = styled.div`
+  white-space: pre-line;
   width: 40%;
   border: 1px solid white;
   border-radius: 10px;
@@ -95,6 +106,7 @@ const Box = styled.div`
   padding: 20px;
 `;
 const Content = styled.div`
+  white-space: pre-line;
   font-size: 20px;
   margin-bottom: 100px;
 `;
@@ -123,9 +135,6 @@ interface Quizprops {
   trynum: string;
   memlimit: string;
 }
-const HtmlText = ({ text }: { text: string }) => (
-  <div dangerouslySetInnerHTML={{ __html: text }} />
-);
 function Quiz() {
   const { quizId } = useParams<RouteParams>();
   const { state } = useLocation<Quizprops>();
@@ -198,11 +207,11 @@ function Quiz() {
             {/* <Quizname1>{probName}</Quizname1>  */}
             <div>정답률 : {probRate}%</div>
           </Header>
-          <Content><HtmlText text={explain}/></Content>
+          <Content><Html text={explain}/></Content>
           {/* <Content>{explain}</Content> */}
           <ExBox>
-            <Box>예제 입력 : {exinput}</Box>
-            <Box>예제 출력 : {exoutput}</Box>
+            <Box><Html text={exinput}/></Box>
+            <Box><Html text={exoutput}/></Box>
           </ExBox>
           <Footer>
             <div>
