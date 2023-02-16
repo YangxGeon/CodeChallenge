@@ -89,7 +89,7 @@ function Navbar() {
             <Link to="/popular">인기 문제</Link>
           </Menu>
           <Menu>
-            <Link to="/hard">오답률 높은 문제</Link>
+            <Link to="/hard">정답률 높은 문제</Link>
           </Menu>
           <Menu>
             <Link to="/unique">푼 사람이 없는 문제</Link>

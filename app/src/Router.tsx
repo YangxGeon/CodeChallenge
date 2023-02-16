@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./routes/Home";
 import Quiz from "./routes/Quiz";
 import Allquiz from "./routes/All";
-import Stepquiz from "./routes/Unique";
+import Stepquiz from "./routes/Popular";
 import Typequiz from "./routes/Hard";
 import MemberInfo from "./routes/Popular";
 import Codesubmit from "./routes/Codesubmit";
@@ -14,6 +14,8 @@ import ManagerM from "./routes/ManagerM";
 import ManagerN from "./routes/ManagerN";
 import Testcase from "./routes/Testcase";
 import MyPage from "./routes/MyPage";
+import Hardquiz from "./routes/Hard";
+import Unique from "./routes/Unique";
 
 function Router() {
   return (
@@ -44,19 +46,19 @@ function Router() {
           <Stepquiz />
         </Route>
         <Route path="/hard">
-          <Typequiz />
+          <Hardquiz />
         </Route>
         <Route path="/unique">
-          <MemberInfo />
+          <Unique />
         </Route>
-        <Route path='/signup'>
+        <Route path="/signup">
           <JoinForm />
         </Route>
-        <Route path='/loginForm'>
+        <Route path="/loginForm">
           <LoginForm />
         </Route>
-        <Route path='/myPage'>
-          <MyPage/>
+        <Route path="/myPage">
+          <MyPage />
         </Route>
         <Route path="/">
           <Home />

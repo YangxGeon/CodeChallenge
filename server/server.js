@@ -291,6 +291,36 @@ app.get("/quizDB", (req, res) => {
   });
 });
 
+app.get("/popularquizDB", (req, res) => {
+  connection.query(
+    "SELECT * from question ORDER BY trynum desc",
+    function (error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
+app.get("/hardquizDB", (req, res) => {
+  connection.query(
+    "SELECT * from question ORDER BY correctnum/trynum desc",
+    function (error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
+app.get("/uniquequizDB", (req, res) => {
+  connection.query(
+    "SELECT * from question WHERE trynum = 0",
+    function (error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
 app.get("/history", (req, res) => {
   const uid = req.session.uid;
   connection.query(

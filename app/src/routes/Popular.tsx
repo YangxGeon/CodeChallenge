@@ -63,7 +63,7 @@ interface QuizListInterface {
   trynum: string;
 }
 
-function All() {
+function Stepquiz() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
@@ -79,10 +79,10 @@ function All() {
   const fetchResult = async () => {
     setError(null);
     setLoading(true);
-    axios.get("/quizDB").then(function (response) {
+    axios.get("/popularquizDB").then(function (response) {
+      console.log(response.data);
       setQuizList(response.data);
       setLen(response.data.length);
-      console.log(response.data);
     });
   };
   const onClickEvent = (quiz: QuizListInterface) => {
@@ -144,4 +144,4 @@ function All() {
   );
 }
 
-export default All;
+export default Stepquiz;
