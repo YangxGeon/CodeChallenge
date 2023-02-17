@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const Header = styled.header`
+  z-index: 10;
   width: 100%;
   height: 6%;
   background-color: #8c7ae6;
@@ -41,10 +42,10 @@ const LoginBtn = styled.button`
   position: absolute;
   right: 10px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: navy;
-    color:white;
- }
+    color: white;
+  }
 `;
 
 const SignUpBtn = styled.button`
@@ -55,10 +56,10 @@ const SignUpBtn = styled.button`
   position: absolute;
   right: 70px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: navy;
-    color:white;
- }
+    color: white;
+  }
 `;
 const ManagerBtn = styled.button`
   width: 55px;
@@ -68,10 +69,10 @@ const ManagerBtn = styled.button`
   position: absolute;
   right: 130px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     background-color: navy;
-    color:white;
- }
+    color: white;
+  }
 `;
 const ButtonBox = styled.div``;
 

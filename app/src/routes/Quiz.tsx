@@ -21,6 +21,12 @@ const Html = styled(HtmlText)`
   white-space: pre-line;
 `;
 
+const Div = styled.div`
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+`;
+
 const Tabs = styled.div`
   display: flex;
   justify-content: center;
@@ -101,8 +107,6 @@ const Box = styled.div`
   border: 1px solid white;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 20px;
 `;
 const Content = styled.div`
@@ -207,11 +211,23 @@ function Quiz() {
             {/* <Quizname1>{probName}</Quizname1>  */}
             <div>정답률 : {probRate}%</div>
           </Header>
-          <Content><Html text={explain}/></Content>
+          <Content>
+            <Html text={explain} />
+          </Content>
           {/* <Content>{explain}</Content> */}
           <ExBox>
-            <Box><Html text={exinput}/></Box>
-            <Box><Html text={exoutput}/></Box>
+            <Div>
+              예제입력
+              <Box>
+                <Html text={exinput} />
+              </Box>
+            </Div>
+            <Div>
+              예제출력
+              <Box>
+                <Html text={exoutput} />
+              </Box>
+            </Div>
           </ExBox>
           <Footer>
             <div>

@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import axios from "axios";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   height: 300px;
@@ -30,7 +31,7 @@ const Content1 = styled.div`
   padding: 100px 0px;
 `;
 const Content2 = styled.div`
-  width: 60%;
+  width: 80%;
   height: 44%;
   display: flex;
   justify-content: space-around;
@@ -43,10 +44,14 @@ const Ranks = styled.ul`
   background-color: white;
   color: black;
   font-size: 30px;
-  width: 400px;
+  width: 600px;
   height: 300px;
 `;
-const Rank = styled.li`
+const Rank = styled.table`
+  margin-top: 18px;
+  font-size: 25px;
+`;
+const Td = styled.td`
   margin-top: 18px;
   font-size: 25px;
 `;
@@ -79,9 +84,22 @@ interface QuizListInterface {
   title: string;
   trynum: string;
 }
-function Home() {
-  // console.log(session.uid)
 
+const Button = styled.li`
+  border: none;
+  background-color: none;
+  color: black;
+
+  &:hover {
+    font-weight: bolder;
+    cursor: pointer;
+  }
+`;
+
+function Home() {
+  const history = useHistory();
+  const [author_id, setAuthor_id] = useState("");
+  const [id, setId] = useState("");
   const [quizList, setQuizList] = useState<QuizListInterface[]>();
   axios.get("/popularquizDB").then(function (response) {
     console.log(response.data);
@@ -96,6 +114,33 @@ function Home() {
     speed: 5000,
     autoplaySpeed: 0,
     cssEase: "linear"
+  };
+  const onClickEvent = (quiz: QuizListInterface) => {
+    axios.post("/session_check").then(function (response) {
+      setAuthor_id(response.data.author_id);
+      setId(response.data.uid);
+
+      if (response.data.uid === undefined) {
+        alert("로그인 후 이용해주세요");
+        history.push("/");
+      } else {
+        history.push({
+          pathname: `/all/${quiz.questionnum}/quiz`,
+          state: {
+            title: quiz.title,
+            correctnum: quiz.correctnum,
+            explanation: quiz.explanation,
+            input: quiz.input,
+            output: quiz.output,
+            presenter: quiz.presenter,
+            questionnum: quiz.questionnum,
+            trynum: quiz.trynum,
+            timelimit: quiz.timelimit,
+            memlimit: quiz.timelimit
+          }
+        });
+      }
+    });
   };
   return (
     <>
@@ -186,11 +231,21 @@ function Home() {
         <Content2>
           <Ranks>
             <div>인기 문제</div>
-            {quizList?.slice(0, 4).map((quiz, index) => (
-              <Rank key={quiz.questionnum}>
-                {index + 1}위 : {quiz.title}
-              </Rank>
-            ))}
+            <table>
+              <tbody>
+                {quizList?.slice(0, 4).map((quiz, index) => (
+                  <tr>
+                    <Td>{index + 1}위 : </Td>
+                    <Td>{quiz.title}</Td>
+                    <Td>
+                      <Button onClick={() => onClickEvent(quiz)}>
+                        도전하러가기
+                      </Button>
+                    </Td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </Ranks>
           <Ranks>
             <div>명예의 전당</div>

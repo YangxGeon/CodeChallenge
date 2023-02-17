@@ -77,6 +77,13 @@ function Codesubmit({ quizId, code }: QuizId) {
   const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const index = event.target.value;
     setSelectedOption(index);
+    if (index === "java") {
+      setValue(
+        `public class Main {\n public static void main(String[] args) {\n\n }\n}`
+      );
+    } else {
+      setValue("");
+    }
   };
   const clear = (event: React.MouseEvent<HTMLElement>) => {
     setValue("");
