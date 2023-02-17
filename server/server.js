@@ -285,15 +285,18 @@ app.get("/DBcheck", (req, res) => {
 });
 
 app.get("/quizDB", (req, res) => {
-  connection.query("SELECT * from question order by questionnum desc", function (error, results) {
-    if (error) throw error;
-    res.json(results);
-  });
+  connection.query(
+    "SELECT * from question order by questionnum desc",
+    function (error, results) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
 });
 
 app.get("/popularquizDB", (req, res) => {
   connection.query(
-    "SELECT * from question ORDER BY trynum desc",
+    "SELECT * from question ORDER BY CAST(trynum AS signed integer) desc;",
     function (error, results) {
       if (error) throw error;
       res.json(results);

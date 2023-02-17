@@ -44,7 +44,7 @@ const Ranks = styled.ul`
   background-color: white;
   color: black;
   font-size: 30px;
-  width: 400px;
+  width: 450px;
   height: 300px;
 `;
 const Rank = styled.table`
