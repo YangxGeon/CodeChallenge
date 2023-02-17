@@ -62,6 +62,11 @@ border : none;
 const Td = styled.td`
   text-align : center;
 `;
+const Tdl = styled.td`
+  display: flex;
+  text-align : center;
+  flex-direction: row;
+`;
 const Button = styled.button`
   width: 80px;
   height: 50px;
@@ -99,7 +104,7 @@ console.log(data)
       <Head>관리자 페이지</Head>
       <Middle>
       <New><Link to={{ pathname: '/managerN' }}>문제추가</Link></New>
-      <Problem>
+      <table>
         <thead>
           <tr>
             <th>문제 번호</th>
@@ -116,23 +121,23 @@ console.log(data)
               <Td>{v.title}</Td>
               <Td>{v.trynum}</Td>
               <Td>{Number(v.correctnum) === 0 && Number(v.trynum) === 0 ? 0 : Math.ceil(v.correctnum / v.trynum * 100)}</Td>
-              <Td>
-                <Buttons><Link
+              <Tdl>
+                <Link
                 to={{
                   pathname: `/managerM/`,
                   state: { questionnum: v.questionnum }
                 }}
               ><Modi>수정</Modi></Link>
-                <Del onClick={() => Delete(v.questionnum)}>삭제</Del></Buttons>
+                <Del onClick={() => Delete(v.questionnum)}>삭제</Del>
                 <Link to={{
                   pathname: `/testcase`,
                   state: { questionnum: v.questionnum }
                 }}><Append>테스트케이스 수정</Append></Link>
-              </Td>
+              </Tdl>
             </tr>
           ))}
         </tbody>
-      </Problem>
+      </table>
       <ManagerPage
           total={data.length}
           limit={limit}

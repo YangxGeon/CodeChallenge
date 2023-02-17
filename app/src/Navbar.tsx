@@ -41,6 +41,10 @@ const LoginBtn = styled.button`
   position: absolute;
   right: 10px;
   cursor: pointer;
+  &:hover{
+    background-color: navy;
+    color:white;
+ }
 `;
 
 const SignUpBtn = styled.button`
@@ -51,6 +55,10 @@ const SignUpBtn = styled.button`
   position: absolute;
   right: 70px;
   cursor: pointer;
+  &:hover{
+    background-color: navy;
+    color:white;
+ }
 `;
 const ManagerBtn = styled.button`
   width: 55px;
@@ -60,6 +68,10 @@ const ManagerBtn = styled.button`
   position: absolute;
   right: 130px;
   cursor: pointer;
+  &:hover{
+    background-color: navy;
+    color:white;
+ }
 `;
 const ButtonBox = styled.div``;
 

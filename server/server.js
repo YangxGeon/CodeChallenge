@@ -106,7 +106,7 @@ app.post("/code", function (request, response) {
   console.log(file);
   shell.exec(`./autopush.sh ${lang} ${quiznum} ${username} ${timelimit}`);
   connection.query(
-    `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${lang}","${nowtime}","${data}") on duplicate key update language="${lang}", submissiontime="${nowtime}"`,
+    `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${lang}","${nowtime}",'${data}') on duplicate key update language="${lang}", submissiontime="${nowtime}"`,
     function (error, results) {
       if (error) throw error;
     }
@@ -285,7 +285,7 @@ app.get("/DBcheck", (req, res) => {
 });
 
 app.get("/quizDB", (req, res) => {
-  connection.query("SELECT * from question", function (error, results) {
+  connection.query("SELECT * from question order by questionnum desc", function (error, results) {
     if (error) throw error;
     res.json(results);
   });

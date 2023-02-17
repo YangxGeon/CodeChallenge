@@ -5,6 +5,9 @@ import Navbar from "../Navbar";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import axios from "axios";
+import { useState } from "react";
+
 const Wrapper = styled.div`
   height: 300px;
 `;
@@ -18,32 +21,30 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 7vh;
 `;
 const Content1 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  padding: 100px 0px;
 `;
 const Content2 = styled.div`
-  width: 33%;
+  width: 60%;
   height: 44%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 const Ranks = styled.ul`
   border: white 3px solid;
   border-radius: 25px;
-  width: 650px;
   padding: 20px;
-  background-color: #eeeee;
-  color: white;
+  background-color: white;
+  color: black;
   font-size: 30px;
-  margin-left: 33px;
-  margin-middle: 10px;
-  margin-top: -30px;
+  width: 400px;
+  height: 300px;
 `;
 const Rank = styled.li`
   margin-top: 18px;
@@ -65,8 +66,27 @@ const Footer = styled.footer`
 const ImgBox = styled.div`
   margin-top: 6%;
 `;
+interface QuizListInterface {
+  correctnum: string;
+  creationtime: string;
+  explanation: string;
+  image: Blob;
+  input: string;
+  output: string;
+  presenter: string;
+  questionnum: number;
+  timelimit: string;
+  title: string;
+  trynum: string;
+}
 function Home() {
   // console.log(session.uid)
+
+  const [quizList, setQuizList] = useState<QuizListInterface[]>();
+  axios.get("/popularquizDB").then(function (response) {
+    console.log(response.data);
+    setQuizList(response.data);
+  });
   const settings = {
     // dots: true,
     infinite: true,
@@ -166,19 +186,19 @@ function Home() {
         <Content2>
           <Ranks>
             <div>인기 문제</div>
-            <Rank>1</Rank>
-            <Rank>2</Rank>
-            <Rank>3</Rank>
-            <Rank>4</Rank>
-            <Rank>5</Rank>
+            {quizList?.slice(0, 4).map((quiz, index) => (
+              <Rank key={quiz.questionnum}>
+                {index + 1}위 : {quiz.title}
+              </Rank>
+            ))}
           </Ranks>
           <Ranks>
             <div>명예의 전당</div>
-            <Rank>1</Rank>
-            <Rank>2</Rank>
-            <Rank>3</Rank>
-            <Rank>4</Rank>
-            <Rank>5</Rank>
+            <Rank>1위 : 박민규</Rank>
+            <Rank>2위 : 양승건</Rank>
+            <Rank>3위 : 김건우</Rank>
+            <Rank>4위 : 김용원</Rank>
+            <Rank></Rank>
           </Ranks>
         </Content2>
       </Main>
