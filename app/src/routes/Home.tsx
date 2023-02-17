@@ -44,7 +44,7 @@ const Ranks = styled.ul`
   background-color: white;
   color: black;
   font-size: 30px;
-  width: 600px;
+  width: 400px;
   height: 300px;
 `;
 const Rank = styled.table`
@@ -52,6 +52,7 @@ const Rank = styled.table`
   font-size: 25px;
 `;
 const Td = styled.td`
+  display: inline-block;
   margin-top: 18px;
   font-size: 25px;
 `;
@@ -236,10 +237,9 @@ function Home() {
                 {quizList?.slice(0, 4).map((quiz, index) => (
                   <tr>
                     <Td>{index + 1}위 : </Td>
-                    <Td>{quiz.title}</Td>
                     <Td>
                       <Button onClick={() => onClickEvent(quiz)}>
-                        도전하러가기
+                        {quiz.title}
                       </Button>
                     </Td>
                   </tr>
