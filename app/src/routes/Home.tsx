@@ -249,11 +249,11 @@ function Home() {
           </Ranks>
           <Ranks>
             <div>명예의 전당</div>
-            <Rank>1위 : 박민규</Rank>
-            <Rank>2위 : 양승건</Rank>
-            <Rank>3위 : 김건우</Rank>
-            <Rank>4위 : 김용원</Rank>
-            <Rank></Rank>
+            <Rank>1위 : 박민규+ 상태</Rank>
+            <Rank>2위 : 양승건+ 상태</Rank>
+            <Rank>3위 : 김건우+ 상태</Rank>
+            <Rank>4위 : 김용원+ 상태</Rank>
+            <Rank> 랭킹 페이지도 있어야할듯</Rank>
           </Ranks>
         </Content2>
       </Main>

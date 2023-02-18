@@ -11,6 +11,7 @@ const Code = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: pre-line;
 `;
 const Res = styled.div`
   flex: 1;
@@ -109,9 +110,9 @@ function Result() {
                   : parseInt(length) - 17}
                 byte
               </div>
-              <br />
+              <br/>
               <div>결과 : {result}</div>
-              <br />
+              <br/>
               <div>런타임 : {time}ms</div>
             </Res>
           </ResultInfo>
