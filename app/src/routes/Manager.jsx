@@ -97,7 +97,6 @@ function Manager() {
   useEffect(() => {
     load()
   }, []);
-console.log(data)
   return (
     <>
       <Navbar />
@@ -111,6 +110,7 @@ console.log(data)
             <th>문제 이름</th>
             <th>시도횟수</th>
             <th>정답률</th>
+            <th>그룹이름</th>
             <th>관리</th>
           </tr>
         </thead>
@@ -121,6 +121,7 @@ console.log(data)
               <Td>{v.title}</Td>
               <Td>{v.trynum}</Td>
               <Td>{Number(v.correctnum) === 0 && Number(v.trynum) === 0 ? 0 : Math.ceil(v.correctnum / v.trynum * 100)}</Td>
+              <Td>{v.groupName}</Td>
               <Tdl>
                 <Link
                 to={{

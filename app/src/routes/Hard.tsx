@@ -70,7 +70,7 @@ function Hardquiz() {
   const history = useHistory();
   const [id, setId] = useState("");
   const [author_id, setAuthor_id] = useState("");
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [len, setLen] = useState(0);
   const offset = (page - 1) * limit;

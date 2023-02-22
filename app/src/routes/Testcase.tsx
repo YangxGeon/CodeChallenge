@@ -76,8 +76,9 @@ function Testcase () {
                 }
             }
         )
+        alert(`테스트케이스가 추가되었습니다.`)
     }
-    console.log("testnum :" , testnum)
+    
     return (
         <>
             <Main>

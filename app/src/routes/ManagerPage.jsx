@@ -1,6 +1,8 @@
 import styled from "styled-components";
 function ManagerPage({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
+  console.log(page)
+  console.log(parseInt(page/10)*10,parseInt(page/10)*10+10)
   return (
     <>
       <Nav>
@@ -8,14 +10,14 @@ function ManagerPage({ total, limit, page, setPage }) {
           &lt;
         </Button>
         {Array(numPages)
-          .fill()
+          .fill().slice(parseInt(page/10)*10,parseInt(page/10)*10+10)
           .map((_, i) => (
             <Button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              aria-current={page === i + 1 ? "page" : null}
+              key={i+1+ parseInt(page/10)*10}
+              onClick={() => setPage(i+1+ parseInt(page/10)*10)}
+              aria-current={page === i+1+ parseInt(page/10)*10 ? "page" : null}
             >
-              {i + 1}
+              {i + 1 + parseInt(page/10)*10}
             </Button>
           ))}
         <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>

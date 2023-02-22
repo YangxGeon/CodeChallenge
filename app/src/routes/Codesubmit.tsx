@@ -4,8 +4,22 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Textarea } from "../Textarea";
+import AceEditor from 'react-ace';
+
+import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/mode-java';
+import 'ace-builds/src-noconflict/mode-python';
+import 'ace-builds/src-noconflict/mode-c_cpp';
+
+const Ace = styled(AceEditor)`
+  width:100px;
+  height:100px;
+`;
 const Container = styled.div`
   display: flex;
+  width:80%;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   padding: 0px 20px;
@@ -13,6 +27,7 @@ const Container = styled.div`
 `;
 const Form = styled.form`
   display: flex;
+  flex:1;
   flex-direction: column;
   align-items: center;
 `;
@@ -47,10 +62,24 @@ interface QuizId {
   code: string;
 }
 function Codesubmit({ quizId, code }: QuizId) {
+  const [color, setColor] = useState<string>("monokai");
   const [value, setValue] = useState("");
-  const [selectedOption, setSelectedOption] = useState<String>("py");
+  const [selectedOption, setSelectedOption] = useState<String>("python");
   const [submit, setSubmit] = useState(false);
   const editorRef = useRef(null);
+  const [code1, setCode1] = useState<string>('');
+
+  const handleCodeChange = (newCode:string) => {
+    setCode1(newCode);
+  };
+  const colorChange = ()=>{
+    if(color=="monokai"){
+      setColor("github");
+    }
+    else{
+      setColor("monokai")
+    }
+  }
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     // const value = event.currentTarget.value;
     const {
@@ -58,10 +87,11 @@ function Codesubmit({ quizId, code }: QuizId) {
     } = event;
     setValue(value);
   };
+  console.log(code1)
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     var file = {
-      value,
+      code1,
       selectedOption,
       quizId
     };
@@ -71,25 +101,24 @@ function Codesubmit({ quizId, code }: QuizId) {
       .catch((err) => console.log(err));
     setSubmit(!submit);
   };
-  useEffect(() => {
-    setValue(code);
-  }, []);
+  // useEffect(() => {
+  // }, []);
   const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const index = event.target.value;
     setSelectedOption(index);
     if (index === "java") {
-      setValue(
+      setCode1(
         `public class Main {\n public static void main(String[] args) {\n\n }\n}`
       );
     } else {
-      setValue("");
+      setCode1("");
     }
   };
   const clear = (event: React.MouseEvent<HTMLElement>) => {
-    setValue("");
+    setCode1("");
   };
   const load = (event: React.MouseEvent<HTMLElement>) => {
-    setValue(code);
+    setCode1(code);
   };
   return (
     <>
@@ -97,7 +126,7 @@ function Codesubmit({ quizId, code }: QuizId) {
         <Form method="POST" action="submit" onSubmit={onSubmit}>
           <SelectButton>
             <Select onChange={selectChange} required>
-              <option selected value="py">
+              <option selected value="python">
                 Python
               </option>
               <option value="cpp">C++</option>
@@ -124,13 +153,34 @@ function Codesubmit({ quizId, code }: QuizId) {
             </ButtonBox>
           </SelectButton>
           {/* <Codebox rows={50} cols={100} onChange={onChange} required /> */}
-          <Textarea
+          {/* <Textarea
             name="test-textarea"
             value={value}
             onValueChange={(value: string) => setValue(value)}
             numOfLines={40}
-          />
+          /> */}
+          {selectedOption==='cpp'?<AceEditor
+            placeholder="여기에 코드를 입력해주세요"
+            mode='c_cpp'
+            theme={color}
+            value={code1}
+            fontSize={20}
+            onChange={handleCodeChange}
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+          />:<AceEditor
+            placeholder="여기에 코드를 입력해주세요"
+            mode={selectedOption}
+            theme={color}
+            value={code1}
+            fontSize={20}
+            onChange={handleCodeChange}
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+          />}
+          
         </Form>
+        <Button onClick={colorChange}>색 변경</Button>
       </Container>
     </>
   );

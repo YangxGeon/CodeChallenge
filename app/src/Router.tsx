@@ -16,6 +16,7 @@ import Testcase from "./routes/Testcase";
 import MyPage from "./routes/MyPage";
 import Hardquiz from "./routes/Hard";
 import Unique from "./routes/Unique";
+import GroupQuiz from "./routes/GroupQuiz";
 
 function Router() {
   return (
@@ -59,6 +60,9 @@ function Router() {
         </Route>
         <Route path="/myPage">
           <MyPage />
+        </Route>
+        <Route path="/groupQuiz">
+          <GroupQuiz />
         </Route>
         <Route path="/">
           <Home />

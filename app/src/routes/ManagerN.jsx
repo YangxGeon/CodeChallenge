@@ -73,6 +73,7 @@ function ManagerN() {
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [explanation, setExplanation] = useState("")
+  const [groupName, setGroupName] = useState("")
   const history = useHistory();
 
   const testapp = async () => {
@@ -122,7 +123,7 @@ function ManagerN() {
             <Box>예제 입력 : <textarea rows={5} placeholder='예제 입력' name="input" value={input} onChange={e => setInput(e.target.value)} /></Box>
             <Box>예제 출력 : <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} /></Box>
           </ExBox>
-          <Footer><div>시간 제한 : <input placeholder='시간 제한' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} /> 메모리 제한 : <input placeholder='메모리 제한' name="memlimit" value={memlimit} onChange={e => setMemlimit(e.target.value)} /></div></Footer>
+          <Footer><div>시간 제한(ms) : <input placeholder='시간 제한(ms)' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} /> 메모리 제한(kb) : <input placeholder='메모리 제한(kb)' name="memlimit" value={memlimit} onChange={e => setMemlimit(e.target.value)} /></div></Footer>
           {/* <Inputdiv>
             <input placeholder='문제 이름' name="title" value={title} onChange={e => setTitle(e.target.value)} />
             <input placeholder='시간 제한' name="timelimit" value={timelimit} onChange={e => setTimelimit(e.target.value)} />
@@ -133,7 +134,14 @@ function ManagerN() {
             <textarea rows={5} placeholder='예제 입력' name="input" value={input} onChange={e => setInput(e.target.value)} />
             <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} />
           </div> */}
+
           <Button onClick={() => insert()}>추가</Button>
+          <br/>
+          <br/>
+          <p>그룹문제가 아닐 시 아래 내용은 생략 해 주세요<br/>그룹문제는 관리자가 지정한 사용자만 문제를 열람 할 수 있습니다.<br/>
+          구성원 추가는 문제 수정 페이지에서 할 수 있습니다.</p>
+          <br/>
+        <input style={{marginBottom:20}} placeholder='그룹 이름' name="groupName" value={groupName} onChange={e => setGroupName(e.target.value)} />
         </Main>
       </Parent>
     </div>

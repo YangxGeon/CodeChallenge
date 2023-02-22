@@ -63,14 +63,14 @@ interface QuizListInterface {
   trynum: string;
 }
 
-function Unique() {
+function GroupQuiz() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
   const history = useHistory();
   const [id, setId] = useState("");
   const [author_id, setAuthor_id] = useState("");
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
   const [len, setLen] = useState(0);
   const offset = (page - 1) * limit;
@@ -79,8 +79,7 @@ function Unique() {
   const fetchResult = async () => {
     setError(null);
     setLoading(true);
-    axios.get("/uniquequizDB").then(function (response) {
-      console.log(response.data);
+    axios.get("/groupQuizDB").then(function (response) {
       setQuizList(response.data);
       setLen(response.data.length);
     });
@@ -144,4 +143,4 @@ function Unique() {
   );
 }
 
-export default Unique;
+export default GroupQuiz;

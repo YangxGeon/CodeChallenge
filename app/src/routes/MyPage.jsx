@@ -1,59 +1,125 @@
 import axios from "axios";
 import Navbar from "../Navbar";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { loadavg } from "os";
-import { profile } from "console";
+import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components";
+
 const Container = styled.div`
   display: flex;
+  margin-top:10%;
+  height:100%;
   flex-direction: column;
   justify-content: center;
 `;
+
 const Head = styled.div`
   display: flex;
-  flex:1;
+  height:40%;
+  text-align: center;
+  justify-content: center;
   flex-direction: column;
+  width:40%;
+  margin:auto;
 `;
+
 const Name = styled.div`
-  font-size : 20px;
+  flex:1;
+  font-size : 40px;
+  text-align: start;
 `;
 const State = styled.div`
-  font-size : 15px;
+  font-size : 25px;
+  flex:1;
+  text-align: start;
 `;
+
 const Middle = styled.div`
   display: flex;
   flex:3;
   flex-direction: row;
-  justify-content: center;
+  height:40%;
+  justify-content: space-around;
 `;
 
-const SideBar = styled.div`
+const Left = styled.div`
   display: flex;
   flex:1;
-  flex-direction: column;
+  height:500px;
+  background-color: antiquewhite;
+  border: 1px solid black;
+  padding:2%;
+  border-radius: 20px;
+  justify-content: center;
+  flex-direction:column;
+  margin:6%;
+  box-shadow: inset;
+`;
+const Left_C = styled.div`
+  flex:1;
+  color:black;
 `;
 
-const Main = styled.div`
+const Center = styled.div`
+  display:flex;
+  flex:3;
+  width:60%;
+  flex-direction: column;
+  border:1px solid black;
+  background-color: aliceblue;
+  border-radius: 20px;
+  margin:6%;
+
+`;
+const Graph = styled.div`
+  display:flex;
+  flex:1;
+  background-color: red;
+  margin:10%;
+`;
+const Solve = styled.div`
   display:flex;
   flex:1;
   flex-direction: column;
-`
+  background-color: blue;
+  margin:10%;
+
+`;
+const List = styled.div`
+
+
+`;
 
 function MyPage() {
-  const [data,setData] = useState({})
+  const history = useHistory();
+  const [data,setData] = useState([])
   const [profile,setProfile] = useState({})
+  const [groupName, setGroupName] = useState([])
   const load = async () => {
     axios.get('/profile').then(function(response){
+      console.log(response.data[0])
       setProfile(response.data[0])
     })
     axios.get(`/mySolve`).then(function (response) {
-      setData(response.data[0])
+      console.log(response.data)
+      setData(response.data)
+    });
+    axios.get(`/group`).then(function (response) {
+      console.log('response')
+      console.log(response.data)
+      setGroupName(response.data)
     });
   }
+  const groupSelect = async(groupname) => {
+    axios.get('/groupSelect',
+    {params: {groupname : groupname}}
+    ).then(function(response){
+      history.push('/groupQuiz')
+    })
+  }
+
   useEffect(() => {
     load()
   },[]);
-  
   return (
     <>
       <Navbar></Navbar>
@@ -61,36 +127,33 @@ function MyPage() {
       <Head>
         <Name>{profile.name}</Name>
         <State>{profile.state}</State>
-        </Head>
+      </Head>
       <Middle>
         <Left>
-          <table>
-            <tbody>
-              <tr>
-                <td>profile.id</td>
-                <td>profile.email</td>
-                <td>소속 그룹 열거형으로</td>
-              </tr>
-            </tbody>
-          </table>
+              <Left_C>id : {profile.id}</Left_C>
+              <Left_C>email : {profile.email}</Left_C>
+              <Left_C>group :
+            {groupName?.map((v)=>(
+              <div>
+              <button onClick={()=>groupSelect(v.groupname)}>{v.groupname}</button>
+               </div>
+            ))}
+            </Left_C>
         </Left>
         <Center>
-          <div>해결한 문제 :
-            {data?.map((v)=>{
-              <Link to={`/all/${v.questinonum}/quiz`} >v.questionnum</Link>
-            })}
-          </div>
+          <Graph>그래프 등등(nivo chart)</Graph>
+          <Solve>해결한 문제 :
+            <List>
+            {data?.map((v)=>(
+              <div>
+              <Link to={`/all/${v.questionnum}/quiz`} >{v.questionnum}</Link>
+              , </div>
+            ))}
+            </List>
+          </Solve>
+          
         </Center>
-        <Right>
-          <div>그래프 등등(nivo chart)</div>
-
-        </Right>
       </Middle>
-      
-
-
-
-      
       </Container>
     </>
   );

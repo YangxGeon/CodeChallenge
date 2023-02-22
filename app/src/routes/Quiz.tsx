@@ -19,10 +19,13 @@ interface QuizNameProps {
 
 const Html = styled(HtmlText)`
   white-space: pre-line;
+  width:100%;
+
 `;
 
 const Div = styled.div`
   width: 100%;
+  justify-content: center;
   flex-direction: column;
   display: flex;
 `;
@@ -231,7 +234,7 @@ function Quiz() {
           </ExBox>
           <Footer>
             <div>
-              시간 제한 : {timelimit}ms 메모리 제한 : {memlimit}MB
+              시간 제한 : {timelimit}ms 메모리 제한 : {memlimit}kb
             </div>{" "}
             <div>출제자 : {examiner}</div>
           </Footer>
