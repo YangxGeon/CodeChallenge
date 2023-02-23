@@ -6,14 +6,12 @@ import axios from "axios";
 import ManagerPage from "./ManagerPage";
 
 const Main = styled.main`
-  margin-top: 6vh;
+  margin-top: 10vh;
   padding: 0px 60px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
-  background-color: #f5f4f0;
-  height: 95vh;
 `;
 
 const Allquiz = styled.ul``;

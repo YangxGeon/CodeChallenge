@@ -14,6 +14,7 @@ const Container = styled.div`
 `;
 
 const Head = styled.div`
+  margin-top:10%;
   display: flex;
   height:40%;
   text-align: center;
@@ -27,11 +28,13 @@ const Name = styled.div`
   flex:1;
   font-size : 40px;
   text-align: start;
+  color:black;
 `;
 const State = styled.div`
   font-size : 25px;
   flex:1;
   text-align: start;
+  color:black;
 `;
 
 const Middle = styled.div`

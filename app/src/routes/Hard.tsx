@@ -6,9 +6,7 @@ import axios from "axios";
 import ManagerPage from "./ManagerPage";
 
 const Main = styled.main`
-  margin-top:6vh;
-  height: 95vh;
-  background-color: #f5f4f0;
+  margin-top:10vh;
   padding: 0px 60px;
   display: flex;
   justify-content: space-around;
