@@ -17,6 +17,7 @@ import MyPage from "./routes/MyPage";
 import Hardquiz from "./routes/Hard";
 import Unique from "./routes/Unique";
 import GroupQuiz from "./routes/GroupQuiz";
+import MyPage2 from "./routes/MyPage2";
 
 function Router() {
   return (
@@ -24,6 +25,9 @@ function Router() {
       <Switch>
         <Route path="/testcase">
           <Testcase></Testcase>
+        </Route>
+        <Route path="/MyPage2">
+          <MyPage2></MyPage2>
         </Route>
         <Route path="/managerM">
           <ManagerM></ManagerM>

@@ -13,16 +13,13 @@ import ImageSlider, { Slide } from "react-auto-image-slider";
 const Wrapper = styled.div`
   height: 300px;
 `;
-// const Image = styled.img`
-//   height: 300px;
-//   width: 500px;
-//   object-fit: fill;
-// `;
+
 const Main = styled.main`
-  height: 87vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f5f4f0;
 `;
 const Content1 = styled.div`
   display: flex;
@@ -30,6 +27,7 @@ const Content1 = styled.div`
   align-items: center;
   font-size: 30px;
   padding: 100px 0px;
+  color: black;
 `;
 const Content2 = styled.div`
   width: 80%;
@@ -45,12 +43,13 @@ const Ranks = styled.ul`
   background-color: white;
   color: black;
   font-size: 30px;
-  width: 450px;
-  height: 300px;
+  width: 550px;
+  height: 400px;
 `;
 const Rank = styled.table`
   margin-top: 18px;
   font-size: 25px;
+  color: black;
 `;
 const Td = styled.td`
   display: inline-block;
@@ -65,7 +64,8 @@ const Footer = styled.footer`
   width: 100%;
   bottom: 0px;
   height: 6vh;
-  background-color: #8c7ae6;
+  background-color: #FFFFFF;
+  color: #FFA500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +94,6 @@ const Button = styled.li`
   border: none;
   background-color: none;
   color: black;
-
   &:hover {
     font-weight: bolder;
     cursor: pointer;
@@ -155,13 +154,13 @@ function Home() {
       <Navbar></Navbar>
       <ImageSlider effectDelay={500} autoPlayDelay={2000}>
         <Slide>
-          <img alt="img2" src="assets/img/img0.png" />
+          <img alt="img0" src="assets/img/img0.png" />
         </Slide>
         <Slide>
-          <img alt="img2" src="assets/img/img1.png" />
+          <img alt="img1" src="assets/img/img1.png" />
          </Slide>
         <Slide>
-          <img alt="img1" src="assets/img/hm.png" />
+          <img alt="hm" src="assets/img/hm.png" />
         </Slide>
       </ImageSlider>
       <Main>
@@ -194,7 +193,12 @@ function Home() {
                   <tr>
                     <Td>{index + 1}위 : </Td>
                     <Td>
-                      <Button>
+                      <Button onClick={()=>history.push({
+          pathname: `/MyPage2`,
+          state: {
+            id:v.submitter
+          }
+        })}>
                         {v.submitter}
                       </Button>
                     </Td>

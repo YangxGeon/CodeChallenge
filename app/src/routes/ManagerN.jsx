@@ -87,7 +87,7 @@ function ManagerN() {
     axios.get('/manager/insert'
       , {
         params: {
-          title, timelimit, memlimit, input, output, explanation, input, output
+          title, timelimit, memlimit, input, output, explanation, input, output, groupName
         }
       }
     ).then(function (response) {
@@ -135,13 +135,14 @@ function ManagerN() {
             <textarea rows={5} placeholder='예제 출력' name="output" value={output} onChange={e => setOutput(e.target.value)} />
           </div> */}
 
-          <Button onClick={() => insert()}>추가</Button>
+          
           <br/>
           <br/>
           <p>그룹문제가 아닐 시 아래 내용은 생략 해 주세요<br/>그룹문제는 관리자가 지정한 사용자만 문제를 열람 할 수 있습니다.<br/>
           구성원 추가는 문제 수정 페이지에서 할 수 있습니다.</p>
           <br/>
         <input style={{marginBottom:20}} placeholder='그룹 이름' name="groupName" value={groupName} onChange={e => setGroupName(e.target.value)} />
+        <Button onClick={() => insert()}>추가</Button>
         </Main>
       </Parent>
     </div>

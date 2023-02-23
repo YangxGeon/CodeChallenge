@@ -1,9 +1,8 @@
 import axios from "axios";
 import Navbar from "../Navbar";
 import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { ResponsiveLine } from '@nivo/line'
 
 const Container = styled.div`
   display: flex;
@@ -92,19 +91,20 @@ const List = styled.div`
 
 function MyPage() {
   const history = useHistory();
+  const location = useLocation().state;
   const [data,setData] = useState([])
   const [profile,setProfile] = useState({})
   const [groupName, setGroupName] = useState([])
   const load = async () => {
-    axios.get('/profile').then(function(response){
+    axios.get('/profile2',{params:{id:location.id}}).then(function(response){
       console.log(response.data[0])
       setProfile(response.data[0])
     })
-    axios.get(`/mySolve`).then(function (response) {
+    axios.get(`/mySolve2`,{params:{id:location.id}}).then(function (response) {
       console.log(response.data)
       setData(response.data)
     });
-    axios.get(`/group`).then(function (response) {
+    axios.get(`/group2`,{params:{id:location.id}}).then(function (response) {
       console.log('response')
       console.log(response.data)
       setGroupName(response.data)
@@ -117,7 +117,7 @@ function MyPage() {
       history.push('/groupQuiz')
     })
   }
-  console.log(data)
+
   useEffect(() => {
     load()
   },[]);
@@ -135,18 +135,14 @@ function MyPage() {
               <Left_C>email : {profile.email}</Left_C>
               <Left_C>group :
             {groupName?.map((v)=>(
-              <div>
-              <button onClick={()=>groupSelect(v.groupname)}>{v.groupname}</button>
-               </div>
+              <div>{v.groupname}</div>
             ))}
             </Left_C>
         </Left>
         <Center>
           <Graph>
-            {/* <ResponsiveLine
-              data=({data}
-              ></ResponsiveLine> */}
-          </Graph>
+            {/* 그래프 등등(nivo chart) */}
+            </Graph>
           <Solve>해결한 문제 :
             <List>
             {data?.map((v)=>(

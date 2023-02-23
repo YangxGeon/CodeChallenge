@@ -9,6 +9,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
+background-color: #f5f4f0;
 `;
 const Contents = styled.div`
 width:30%;
@@ -29,6 +30,7 @@ const Top = styled.div`
 const Text = styled.p`
   flex:1;
   font-size: 40px;
+  color: black;
 `;
 const Middle = styled.div`
 flex:4;

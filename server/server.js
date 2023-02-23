@@ -106,7 +106,7 @@ app.post("/code", function (request, response) {
   console.log(file);
   shell.exec(`./autopush.sh ${newFile.option} ${quiznum} ${username} ${timelimit}`);
   connection.query(
-    `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${newFile.option}","${nowtime}",'${data}') on duplicate key update language="${newFile.option}", submissiontime="${nowtime}"`,
+    `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${newFile.option}","${nowtime}",'${data}') on duplicate key update code='${data}', language="${newFile.option}", submissiontime="${nowtime}", result=""`,
     function (error, results) {
       if (error) throw error;
     }
@@ -137,8 +137,8 @@ app.get("/manager/modi", (req, res) => {
 //managerN 작성 완료 후 추가
 app.get("/manager/insert", async (req, res) => {
   let [results] = await connection.promise().query(`INSERT INTO question(
-    title, trynum, correctnum, timelimit, memlimit, explanation, creationtime, presenter,input,output)
-  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}",'${req.query.explanation}',"${nowtime}","${req.session.uid}",'${req.query.input}','${req.query.output}');
+    title, trynum, correctnum, timelimit, memlimit, explanation, creationtime, presenter,input,output, groupName)
+  VALUES ("${req.query.title}","0","0","${req.query.timelimit}","${req.query.memlimit}",'${req.query.explanation}',"${nowtime}","${req.session.uid}",'${req.query.input}','${req.query.output}','${req.query.groupName}');
     `);
   //   , function (error, results, fields) {
   //   if (error) throw error;
@@ -482,7 +482,16 @@ app.post("/session_check", (req, res) => {
 //myPage 푼 문제 받아오기
 app.get("/mySolve",(req, res) => {
   connection.query(
-    `SELECT questionnum, submissiontime from solve where submitter="${req.session.uid}" and result = "yes"`,
+    `SELECT questionnum, submissiontime from solve where submitter="${req.session.uid}" and result = "yes" order by submissiontime desc`,
+    function (error, results, fields) {
+      if (error) throw error;
+      console.log(results);
+      res.json(results);
+    })
+})
+app.get("/mySolve2",(req, res) => {
+  connection.query(
+    `SELECT questionnum, submissiontime from solve where submitter="${req.query.id}" and result = "yes" order by submissiontime desc`,
     function (error, results, fields) {
       if (error) throw error;
       console.log(results);
@@ -499,10 +508,29 @@ app.get("/profile",(req, res)=>{
     }
   )
 })
+app.get("/profile2",(req, res)=>{
+  connection.query(
+    `SELECT * from user where id="${req.query.id}"`,
+    function(error, results){
+      if(error) throw error;
+      res.json(results);
+    }
+  )
+})
 
 app.get("/group",(req, res)=>{
   connection.query(
     `SELECT groupname from groupUser where GroupUserId="${req.session.uid}"`,
+    function(error, results){
+      if(error) throw error;
+      console.log(results);
+      res.json(results);
+    }
+  )
+})
+app.get("/group2",(req, res)=>{
+  connection.query(
+    `SELECT groupname from groupUser where GroupUserId="${req.query.id}"`,
     function(error, results){
       if(error) throw error;
       console.log(results);
