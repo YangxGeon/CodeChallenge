@@ -14,14 +14,10 @@ const Container = styled.div`
 `;
 
 const Head = styled.div`
-  margin-top:10%;
+  margin-top:7vh;
   display: flex;
-  height:40%;
-  text-align: center;
-  justify-content: center;
+  align-items:center;
   flex-direction: column;
-  width:40%;
-  margin:auto;
 `;
 
 const Name = styled.div`
