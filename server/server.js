@@ -73,11 +73,9 @@ app.post("/code", function (request, response) {
   let lang = "";
   let username = uid;
   let quiznum = newFile.quizId;
-  console.log(quiznum);
   let timelimit = "5";
   let time = "";
   let now = new Date();
-  console.log(newFile)
   const nowtime = `${now.getFullYear()}.${
     now.getMonth() + 1
   }.${now.getDate()}.${now.getHours()}.${now.getMinutes()}.${now.getSeconds()}`;
@@ -103,8 +101,9 @@ app.post("/code", function (request, response) {
     "utf-8"
   );
   file.push(newFile);
-  console.log(file);
-  shell.exec(`./autopush.sh ${newFile.option} ${quiznum} ${username} ${timelimit}`);
+  shell.exec(
+    `./autopush.sh ${newFile.option} ${quiznum} ${username} ${timelimit}`
+  );
   connection.query(
     `INSERT into solve(questionnum, submitter, language, submissiontime, code) VALUES(${quiznum},"${username}","${newFile.option}","${nowtime}",'${data}') on duplicate key update code='${data}', language="${newFile.option}", submissiontime="${nowtime}", result=""`,
     function (error, results) {
@@ -115,7 +114,6 @@ app.post("/code", function (request, response) {
 
 //manger 출제문제 받아오기
 app.get("/manager/sel", (req, res) => {
-  console.log(req.session.uid);
   connection.query(
     `SELECT * from question where presenter="${req.session.uid}"`,
     function (error, results, fields) {
@@ -156,13 +154,12 @@ app.get("/manager/insert", async (req, res) => {
     function (error, results, fields) {
       if (error) throw error;
       res.json(results);
-      console.log(results[0].input);
+
       // fs.writeFileSync(`../../../case/test/in1.txt`, results.in, "utf-8");
     }
   );
 });
 app.get("/manager/tc", (req, res) => {
-  console.log(req.query.title);
   connection.query(
     `SELECT questionnum,input,output from question where title="${req.query.title}" order by creationtime desc limit 1`,
     function (error, results, fields) {
@@ -258,12 +255,12 @@ app.get("/testcase/modi", (req, res) => {
 
 app.get("/solveDB", (req, res) => {
   const uid = req.session.uid;
-  console.log(req.query.questionnum);
+
   connection.query(
     `SELECT * from solve where questionnum = ${req.query.questionnum} and submitter="${uid}" order by submissiontime desc limit 1`,
     function (error, results, fields) {
       if (error) throw error;
-      console.log(results);
+
       res.json(results);
     }
   );
@@ -275,7 +272,6 @@ app.get("/solveDB/insert", (req, res) => {
       if (error) throw error;
     }
   );
-  console.log(nowtime);
 });
 app.get("/DBcheck", (req, res) => {
   connection.query(`SELECT * from solve`, function (error, results, fields) {
@@ -294,7 +290,7 @@ app.get("/quizDB", (req, res) => {
   );
 });
 
-app.get('/manager/groupId', (req, res) => {
+app.get("/manager/groupId", (req, res) => {
   connection.query(
     `select * from groupUser where groupname = (select groupName from question where questionnum = '${req.query.questionnum}')`,
     function (error, results) {
@@ -306,8 +302,7 @@ app.get('/manager/groupId', (req, res) => {
 
 app.get("/groupQuizDB", (req, res) => {
   const group = req.session.groupName;
-  console.log('groupQuizDB');
-  console.log(group);
+
   connection.query(
     `select * from question where groupName = '${group}'`,
     function (error, results) {
@@ -317,16 +312,13 @@ app.get("/groupQuizDB", (req, res) => {
   );
 });
 
-app.get("/groupSelect", (req,res)=> {
+app.get("/groupSelect", (req, res) => {
   req.session.groupName = req.query.groupname;
-  console.log('groupSelect');
-  console.log(req.session.groupName);
-  req.session.save( function() {
-    console.log('save');
+
+  req.session.save(function () {
     res.json();
-  }
-  );
-})
+  });
+});
 
 app.get("/popularquizDB", (req, res) => {
   connection.query(
@@ -373,7 +365,7 @@ app.get("/history", (req, res) => {
     `select code, result from solve where questionnum = ${req.query.questionnum} and submitter="${uid}" order by submissiontime desc limit 1`,
     function (error, results) {
       if (error) throw error;
-      console.log(results);
+
       res.json(results);
     }
   );
@@ -382,7 +374,7 @@ app.get("/history", (req, res) => {
 // 회원가입 요청
 app.post("/join", async (req, res) => {
   // green1234
-  console.log("join");
+
   let myPlaintextPass = req.body.userpass;
   let myPass = "";
   if (myPlaintextPass != "" && myPlaintextPass != undefined) {
@@ -390,7 +382,7 @@ app.post("/join", async (req, res) => {
       bcrypt.hash(myPlaintextPass, salt, function (err, hash) {
         // Store hash in your password DB.
         myPass = hash;
-        console.log(myPass);
+
         // 쿼리 작성s
         const { username, userid, userstate, usermail, usermanager } = req.body;
         // connection.query 인자 첫번째: 쿼리문, 두번째: 쿼리문에 들어갈 값, 세번째: 처리 되면 하는 애
@@ -398,7 +390,6 @@ app.post("/join", async (req, res) => {
           "insert into user(id, pw, name, email, state, manager, group) values(?,?,?,?,?,?,'default')",
           [userid, myPass, username, usermail, userstate, usermanager],
           (err, result, fields) => {
-            console.log(result);
             console.log(err);
             res.send("등록되었습니다.");
           }
@@ -411,7 +402,7 @@ app.post("/join", async (req, res) => {
 app.post("/login_process", function (request, response) {
   var username = request.body.loginID;
   var password = request.body.loginPassword;
-  console.log("login_process");
+
   if (username && password) {
     // id와 pw가 입력되었는지 확인
     connection.query(
@@ -422,10 +413,9 @@ app.post("/login_process", function (request, response) {
           // db에서의 반환값이 있으면 비밀번호 조회
           bcrypt.compare(password, results[0].pw, function (err, result) {
             if (result) {
-              console.log("login");
               request.session.uid = username;
               request.session.author_id = results[0].manager;
-              request.session.groupName = 'alpha';
+              request.session.groupName = "alpha";
               request.session.save(function () {});
               response.json({ message: "success" });
             } else {
@@ -445,7 +435,6 @@ app.post("/login_process", function (request, response) {
 
 app.post("/logout", (req, res) => {
   req.session.destroy();
-  console.log("session destroy");
 });
 
 app.use(
@@ -461,7 +450,6 @@ app.use(
 );
 
 app.post("/duplicate", (req, res) => {
-  console.log(req.body.params.id);
   connection.query(
     `SELECT * from user where id="${req.body.params.id}"`,
     function (error, results, fields) {
@@ -480,75 +468,76 @@ app.post("/session_check", (req, res) => {
 });
 
 //myPage 푼 문제 받아오기
-app.get("/mySolve",(req, res) => {
+app.get("/mySolve", (req, res) => {
   connection.query(
     `SELECT questionnum, submissiontime from solve where submitter="${req.session.uid}" and result = "yes" order by submissiontime desc`,
     function (error, results, fields) {
       if (error) throw error;
-      console.log(results);
+
       res.json(results);
-    })
-})
-app.get("/mySolve2",(req, res) => {
+    }
+  );
+});
+app.get("/mySolve2", (req, res) => {
   connection.query(
     `SELECT questionnum, submissiontime from solve where submitter="${req.query.id}" and result = "yes" order by submissiontime desc`,
     function (error, results, fields) {
       if (error) throw error;
-      console.log(results);
+
       res.json(results);
-    })
-})
+    }
+  );
+});
 //myPage 개인정보 받아오기
-app.get("/profile",(req, res)=>{
+app.get("/profile", (req, res) => {
   connection.query(
     `SELECT * from user where id="${req.session.uid}"`,
-    function(error, results){
-      if(error) throw error;
+    function (error, results) {
+      if (error) throw error;
       res.json(results);
     }
-  )
-})
-app.get("/profile2",(req, res)=>{
+  );
+});
+app.get("/profile2", (req, res) => {
   connection.query(
     `SELECT * from user where id="${req.query.id}"`,
-    function(error, results){
-      if(error) throw error;
+    function (error, results) {
+      if (error) throw error;
       res.json(results);
     }
-  )
-})
+  );
+});
 
-app.get("/group",(req, res)=>{
+app.get("/group", (req, res) => {
   connection.query(
     `SELECT groupname from groupUser where GroupUserId="${req.session.uid}"`,
-    function(error, results){
-      if(error) throw error;
-      console.log(results);
+    function (error, results) {
+      if (error) throw error;
+
       res.json(results);
     }
-  )
-})
-app.get("/group2",(req, res)=>{
+  );
+});
+app.get("/group2", (req, res) => {
   connection.query(
     `SELECT groupname from groupUser where GroupUserId="${req.query.id}"`,
-    function(error, results){
-      if(error) throw error;
-      console.log(results);
+    function (error, results) {
+      if (error) throw error;
+
       res.json(results);
     }
-  )
-})
+  );
+});
 
-app.get("/manager/addMember",(req, res)=>{
+app.get("/manager/addMember", (req, res) => {
   connection.query(
     `insert ignore into groupUser(groupname, groupUserId) values('${req.query.groupName}','${req.query.newUser}')`,
-    function(error, results){
-      if(error) throw error;
+    function (error, results) {
+      if (error) throw error;
       res.json(results);
     }
-  )
-})
-
+  );
+});
 
 // React Router 사용
 app.get("*", function (request, response) {
