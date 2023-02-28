@@ -6,7 +6,7 @@ import axios from "axios";
 import ManagerPage from "./ManagerPage";
 
 const Main = styled.main`
-  margin-top:10vh;
+  margin-top: 10vh;
   padding: 0px 60px;
   display: flex;
   justify-content: space-around;
@@ -20,15 +20,18 @@ const Button = styled.li`
   border: none;
   background-color: none;
   color: white;
-
+  position: absolute;
+  right: 10px;
   &:hover {
     font-weight: bolder;
     cursor: pointer;
   }
 `;
 const Quiz = styled.li`
+  position: relative;
   padding: 15px;
   border: 3px white solid;
+  width: 47vw;
   height: 70px;
   display: flex;
   align-items: center;
